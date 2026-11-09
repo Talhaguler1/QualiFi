@@ -8,6 +8,16 @@
 - Ek paket kurulumu veya derleme gerekmiyor.
 - Demo örnek yanıtlar kullanıyor; canlı yapay zekâ ve iletişim entegrasyonu henüz yok.
 
+## GitHub bağlantısı
+
+- Doğrulanmış depo: `https://github.com/Talhaguler1/QualiFi`.
+- Git uzak adresi (`origin`): `https://github.com/Talhaguler1/QualiFi.git`.
+- Çalışma ve gönderim dalı: `main`.
+- Deponun görünürlüğü özel (`private`); kullanıcı istemedikçe değiştirme.
+- Kullanıcının görev panosu: `https://github.com/users/Talhaguler1/projects/3`.
+  Pano erişimi mevcut bağlantıyla doğrulanamadı; kaynak kod aktarımı bu panoya
+  değil, yukarıdaki depoya yapılır.
+
 ## Her çalışma turunun sonunda
 
 Kullanıcı, bu projedeki güncellemelerin her çalışma turunun sonunda GitHub'a
