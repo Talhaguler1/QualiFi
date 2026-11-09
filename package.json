@@ -1,0 +1,7 @@
+{
+  "name": "qualifi-landing",
+  "version": "0.1.0",
+  "private": true,
+  "description": "QualiFi landing page — conversational AI for your CFO team",
+  "scripts": { "dev": "node server.cjs", "start": "node server.cjs", "check": "node --check app.js && node --check server.cjs" }
+}
