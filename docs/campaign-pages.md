@@ -5,6 +5,29 @@ Bu yedi kampanya sayfası henüz uygulanmadı; mevcut dört segment sayfasının
 yerine geçecek veya onlardan ayrışacak önerilerdir. Hedef gruplar ve problemler
 müşteri görüşmeleriyle doğrulanmış kabul edilmemeli.
 
+## Son kullanıcı düzeltmesi: önce CTA ilgisi
+
+İlk deneyin ana amacı her sayfadaki belirli teklife ve belirli CTA'ya tıklamayı
+ölçmektir. Bekleme listesi veya sözleşme ekleme gibi aksiyonun hangisi olacağı
+sayfa bazında belirlenir. Demo, ilgi gösterenlerle sonraki aşamada yapılır;
+birincil hedefin bütün sayfalarda demo rezervasyonu olması istenmiyor.
+
+Tekil CTA tıklayan / o sayfayı gören ölçülebilmiş tekil ziyaretçi temel orandır.
+Kayıt bırakma, gerçek dosya yükleme, demo, ücretli pilot ve ödeme ayrı ikincil
+adımlardır. İzin vermeyen ziyaretçiler nedeniyle kapsama sınırı açıklanmalı.
+Tıklama ödeme isteğini veya ürünün çalıştığını kanıtlamaz. CTA sonrası gerçek
+ürün/pilot durumu açıklanmalı; çalışan ajan veya sonuç taklidi yapılmamalı.
+
+Ürün vizyonu: sözleşme çıkarımı ajanı vadeleri ve ilgili verileri takip ajanına
+iletir; takip ajanı tanımlanmış iletişim akışlarını yürütür; Gmail inceleme ajanı
+yanıt/satış sinyallerini çıkarır; öngörü ajanı bunları değerlendirebilir. Üstteki
+sohbet arayüzü bu görevler ve sonuçlarla tek giriş noktası sağlar. Bu bir ürün
+mimarisi vizyonudur; depoda çalışan ajan orkestrasyonu henüz bulunmuyor.
+
+Ücretlendirme önerileri ve deney sırası [`pricing-hypotheses.md`](pricing-hypotheses.md)
+dosyasındadır. Bunlar kamuya uygulanmış fiyatlar veya araştırılmış piyasa
+fiyatları değildir.
+
 ## Kullanıcıdan gelen yeni bilgiler
 
 - Sözleşme veya yapılandırılmış girdiden model geliştirip çıktı üretmeyi ve
@@ -23,13 +46,12 @@ müşteri görüşmeleriyle doğrulanmış kabul edilmemeli.
 ## Ortak deney
 
 Her kampanya sayfası aynı sırayı takip eder: tanıdık problem → o probleme özel
-sonuç → tek örnek çözüm yolculuğu → demo kapsamında görülecekler → ücret/pilot
+sonuç → tek örnek çözüm yolculuğu → sayfaya özel tek CTA → ücret/pilot
 koşulları → aynı ana CTA'nın tekrarı → ilgili SSS ve gerçek iletişim/veri bilgileri.
 
-Hazır demo sunulabilen sayfalarda ana aksiyon `20 dakikalık ücretsiz demo talep et`
-olabilir; ücretsiz politika kesinleşmeli. Takvim bağlantısı geldikten sonra
-`20 dakikalık demo planla` kullanılabilir. Takvimde rezervasyon oluşmadan `planlandı`
-denmez. Başvuru sonrası beklenen dönüş süresi ayrıca belirlenmeli.
+Sayfa bazında `Bekleme listesine katıl`, `Sözleşmeni ekle` veya benzeri tek
+aksiyon seçilir. Birincil hedef CTA tıklamasıdır. İlgi/kayıt sonrasında 20 dakikalık
+demo önerilebilir; ücretsiz politika ve dönüş süresi ayrıca kesinleşmeli.
 
 Reklam sayfalarında çözüm seçimi, segment menüsü ve farklı niyetli eşdeğer
 CTA'lar gösterilmez. Genel/organik ana sayfa keşif ve yönlendirme sunabilir.
@@ -41,22 +63,22 @@ gerekmeyen, anonim veya örnek bir demo gösterilebilmeli.
 
 | Sayfa/öncelik | Önerilen dar grup | Tek problem ve başlık taslağı | Çözüm yolculuğu | Ana aksiyon |
 | --- | --- | --- | --- | --- |
-| 1 / ilk grup | Proje bazlı çalışan ajans sahipleri | `Proje ödemelerinizin hangi haftaya denk geldiğini görün.` Yaklaşan giderlerle müşteri ödeme tarihleri uyuşmuyor. | Sözleşme/girdi → vade ve ödeme koşulları → haftalık nakit senaryosu | 20 dakikalık nakit öngörüsü demosu talebi |
-| 2 / ilk grup sonrası | Birden çok müşteriyle çalışan freelancer/danışman | `Avans ve teslim ödemelerinizi tek gelir planında görün.` Değişken proje geliri kişisel planı zorlaştırıyor. | Proje tutarı ve kilometre taşları → tahmini ödeme zamanları → gecikme senaryosu | 20 dakikalık proje gelir planı demosu talebi |
-| 3 / ilk grup | Vadeli çalışan küçük B2B işletmelerin finans sorumluları | `Yaklaşan ve geciken tahsilatları yazışmalarınızın içinden takip edin.` Ödeme sözleri e-postalarda kalıyor. | İzinli Gmail/sözleşme bağlamı → taahhüt ve vade listesi → takip/istisna özeti | 20 dakikalık tahsilat takibi demosu talebi |
-| 4 / ilk grup | Satışını Gmail üzerinden yürüten küçük B2B işletme sahipleri | `Gönderdiğiniz teklifler takipsiz kalmasın.` Teklif sonrası yeniden iletişime geçme unutuluyor. | Teklif yazışması → yanıt/son temas durumu → sonraki takip önerisi veya kapsamı belirlenmiş ajan aksiyonu | 20 dakikalık satış follow-up demosu talebi |
-| 5 / ilk grup sonrası | Satış pipeline'ını e-postayla takip eden B2B satış yöneticileri | `Beklenen satışın hangi fırsatlardan geldiğini görün.` Teklif tutarıyla gerçekleşmesi beklenen satış karışıyor. | İzinli fırsat yazışmaları ve girdiler → varsayımlar/aşamalar → senaryolu satış öngörüsü | 20 dakikalık satış öngörüsü demosu talebi |
-| 6 / teknik keşif | WhatsApp Business üzerinden sipariş/ödeme konuşan küçük işletmeler | `Ödeme taahhütlerini sohbet akışında kaybetmeyin.` Konuşmalardaki finansal işler gözden kaçıyor. | Desteklenen hesap/veri erişimi doğrulaması → taahhüt çıkarımı → takip özeti | Demo hazır olana kadar WhatsApp pilotuna ilgi kaydı; hazır olursa demo talebi |
-| 7 / ayrı kurumsal keşif | Bankaların KOBİ risk/analitik ekipleri | `Geri ödeme analizinde iletişim ve sektör sinyallerini değerlendirin.` Mevcut değerlendirmede hangi ek sinyallerin faydalı olacağı belirsiz. | İzinli veri kapsamı → geçmiş örneklerde değerlendirme → uzman incelemesi ve doğrulama | 20 dakikalık kurumsal keşif görüşmesi talebi |
+| 1 / ilk grup | Proje bazlı çalışan ajans sahipleri | `Proje ödemelerinizin hangi haftaya denk geldiğini görün.` Yaklaşan giderlerle müşteri ödeme tarihleri uyuşmuyor. | Sözleşme/girdi → vade ve ödeme koşulları → haftalık nakit senaryosu | `Sözleşmeni ekle` tıklaması (öneri) |
+| 2 / ilk grup sonrası | Birden çok müşteriyle çalışan freelancer/danışman | `Avans ve teslim ödemelerinizi tek gelir planında görün.` Değişken proje geliri kişisel planı zorlaştırıyor. | Proje tutarı ve kilometre taşları → tahmini ödeme zamanları → gecikme senaryosu | `Gelir planımı oluştur` tıklaması (öneri) |
+| 3 / ilk grup | Vadeli çalışan küçük B2B işletmelerin finans sorumluları | `Yaklaşan ve geciken tahsilatları yazışmalarınızın içinden takip edin.` Ödeme sözleri e-postalarda kalıyor. | İzinli Gmail/sözleşme bağlamı → taahhüt ve vade listesi → takip/istisna özeti | `Takip ajanını keşfet` tıklaması (öneri) |
+| 4 / ilk grup | Satışını Gmail üzerinden yürüten küçük B2B işletme sahipleri | `Gönderdiğiniz teklifler takipsiz kalmasın.` Teklif sonrası yeniden iletişime geçme unutuluyor. | Teklif yazışması → yanıt/son temas durumu → sonraki takip önerisi veya kapsamı belirlenmiş ajan aksiyonu | `Follow-up ajanına erken erişim` tıklaması (öneri) |
+| 5 / ilk grup sonrası | Satış pipeline'ını e-postayla takip eden B2B satış yöneticileri | `Beklenen satışın hangi fırsatlardan geldiğini görün.` Teklif tutarıyla gerçekleşmesi beklenen satış karışıyor. | İzinli fırsat yazışmaları ve girdiler → varsayımlar/aşamalar → senaryolu satış öngörüsü | `Satış öngörümü keşfet` tıklaması (öneri) |
+| 6 / teknik keşif | WhatsApp Business üzerinden sipariş/ödeme konuşan küçük işletmeler | `Ödeme taahhütlerini sohbet akışında kaybetmeyin.` Konuşmalardaki finansal işler gözden kaçıyor. | Desteklenen hesap/veri erişimi doğrulaması → taahhüt çıkarımı → takip özeti | `WhatsApp pilot listesine katıl` tıklaması (öneri) |
+| 7 / ayrı kurumsal keşif | Bankaların KOBİ risk/analitik ekipleri | `Geri ödeme analizinde iletişim ve sektör sinyallerini değerlendirin.` Mevcut değerlendirmede hangi ek sinyallerin faydalı olacağı belirsiz. | İzinli veri kapsamı → geçmiş örneklerde değerlendirme → uzman incelemesi ve doğrulama | `Kurumsal pilotla ilgileniyorum` tıklaması (öneri) |
 
 1, 3 ve 4, kullanıcının açıklamalarından hareketle ilk hazırlık önerisidir;
 erişilebilir müşteriler ve demo hazırlığına göre sıra değişebilir. Tüm sayfalara
 aynı anda reklam bütçesi dağıtılması önerilmiyor. 2 ve 5'te aynı altyapı
 paylaşılabilir; problem, örnek çıktı, başlık, fiyat birimi ve reklam mesajı ayrı tutulur.
 
-## Örnek: sayfa 1'in 20 dakikalık demo yolculuğu
+## Örnek: sayfa 1'in CTA sonrası demo yolculuğu
 
-- İlk ekran: hedef grup + haftalık nakit problemi + demo talebi.
+- İlk ekran: hedef grup + haftalık nakit problemi + sayfaya özel tek CTA.
 - Görsel: açıkça örnek olduğu belirtilmiş proje sözleşmesi, vade çıkarımı ve
   haftalık nakit zaman çizelgesi; ekran yerine anlaşılır çıktı.
 - Fayda: ödeme takvimini görmek, gecikmenin etkisini tartışmak ve hangi
@@ -87,7 +109,7 @@ geçerken sabit `page_id`, `offer_id`, birincil `cta_goal`, sayfa sürümü ve r
 bağlamı eklenmeli; eski kayıtlar korunmalı. Aynı segmentte farklı amaçlı yeni
 sayfaların tek kategoriye düşmesi engellenmeli.
 
-Takip zinciri: sayfa ziyareti → ana CTA → form başlangıcı → kaydedilmiş talep →
+Takip zinciri: sayfa ziyareti → ana CTA (ilk deneyin ana hedefi) → form başlangıcı → kaydedilmiş talep →
 doğrulanmış randevu → gerçekleşen demo → nitelikli/ücretli pilot. Dosya paylaşımı
 ayrı bir ikincil davranış olarak ölçülür. Hazırlık ve ölçüm kurulabilir;
 hangi sayfanın kazandığına trafik ve başvuru kalitesi geldikten sonra karar verilir.

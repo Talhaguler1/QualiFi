@@ -19,6 +19,10 @@
   hedef grup/problem/teklif/ana CTA etrafında kurulacak. Demo 20 dakika;
   Gmail/model yetenekleri kullanıcı tarafından geliştirilmesi düşünülen kapsamdır.
   Yedi sayfa şu anda taslaktır; canlı entegrasyon ve fiyat varsayma.
+- Son kullanıcı düzeltmesi: ilk deneyin ana hedefi sayfaya özel tek CTA'ya
+  tıklamadır (bekleme listesi, sözleşme ekleme vb.). Demo sonraki adımdır;
+  tüm sayfaların birincil hedefini demo rezervasyonuna çevirme. CTA tıklamasını
+  kayıt, dosya yükleme, aktif ürün veya ödeme isteğiyle aynı başarı sayma.
 
 ## GitHub bağlantısı
 
