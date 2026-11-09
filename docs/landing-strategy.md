@@ -1,8 +1,10 @@
 # QualiFi landing page: talep doğrulama ve ölçüm önerisi
 
 Durum: İnceleme ve öneri. Bu belge, çalışan bir form, analitik entegrasyonu veya
-yeni bir landing page uygulaması değildir. Gerçek çözüm fikirleri, hedef gruplar
-ve öncelikli dönüşüm aksiyonu kullanıcıdan bekleniyor.
+yeni bir landing page uygulaması değildir. Kullanıcının açıkladığı gerçek çözüm
+fikirleri, hedef gruplar ve üç CTA için güncel ürün brief'i
+[`landing-brief.md`](landing-brief.md) dosyasındadır. İçerik ve aksiyon
+önceliklerinde güncel brief esas alınmalı.
 
 ## İnceleme bulguları
 
@@ -33,25 +35,25 @@ dönüşüm performansı hakkında kullanıcı verisine dayalı bir sonuç çık
 ## Önerilen sayfa akışı
 
 1. **Değer önerisi:** Hedef müşteriyi, çözülen problemi ve beklenen sonucu kısa
-   şekilde anlat. Tek ana aksiyon kullan. Ürün henüz konsept aşamasındaysa
-   başlangıç önerisi `Pilot görüşmesi talep et`.
+   şekilde anlat. Ana aksiyon `Sözleşmeni ekle, ajanını kur` olsun. Görüşme ve
+   bekleme listesi ayrı, daha düşük görsel öncelikte seçenekler olarak korunsun.
 2. **Çözüm seçimi:** `Önce hangi sorunu çözmek istiyorsunuz?` altında en fazla
    üç veya dört eşit ağırlıklı seçenek sun. Her birinde aynı yapıda problem,
    beklenen sonuç ve `Bu çözümü incele` aksiyonu olsun.
 3. **Seçime göre içerik:** İlgili kısa senaryoyu, örnek çıktıyı ve geliştirme
    durumunu göster. Örnek veriyi açıkça belirt. Seçim formda korunsun;
    seçenekler arasında geçiş mümkün olsun.
-4. **Kısa başvuru:** E-posta, şirket/rol ve seçilen ihtiyaç başlangıç için yeterli
-   olabilir. İhtiyacı açıklayan ek soru isteğe bağlı kalsın. Çözüm seçmeden gelen
-   ana CTA için `İhtiyacımı birlikte belirleyelim` yolu olsun.
+4. **Aksiyona uygun akış:** Ana CTA kısa bir pilot kurulumuna, görüşme CTA'sı
+   takvim seçeneklerine, bekleme listesi e-posta formuna açılmalı. Her akışın
+   tamamlanması ayrı ölçülmeli; üçü aynı uzun forma dönüştürülmemeli.
 5. **Kayıt ve sonraki adım:** Form gerçekten kalıcı kaydedildikten sonra başarı
    göster. Ardından uygun randevu bağlantısı ve bundan sonra ne olacağı sunulsun.
 6. **SSS ve son CTA:** Veri bağlantıları, ürünün mevcut aşaması, pilotun işleyişi
    gibi gerçek karar sorularını yanıtla. Ana aksiyonu tekrarla.
 
-Olası örnek başlıklar: nakit akışı tahmini, tahsilat/ödeme takibi, finansal
-raporlama. Bunlar mevcut finans anlatısından türetilmiş örneklerdir; kullanıcının
-gerçek ürün fikirleri olarak kabul edilmemelidir.
+Kullanıcının belirttiği teklifler: nakit akışı öngörüsü, ajanla nakit takibi ve
+bankalara yönelik geri ödeme/risk analizi. Dashboard gerektirmeyen kullanım
+ortak konumlandırmadır. Segmentler ve örnek metinler güncel brief'tedir.
 
 Fikirler farklı sektör veya müşteri gruplarına hitap ediyorsa ortak giriş
 sayfasından ayrı çözüm sayfalarına yönlendir. Her çözüm için paylaşılabilir bir
@@ -107,7 +109,7 @@ sabit varyant ataması ve önceden belirlenmiş başarı ölçütüyle karşıla
 
 ## Uygulama sırası
 
-1. Gerçek çözüm listesi, hedef kitle ve ana aksiyonu netleştir.
+1. Güncel brief'teki segment sayfaları, iki KOBİ teklifi ve üç CTA'yı tasarıma aktar.
 2. Kısa sayfa ve çalışan başvuru akışını kur.
 3. Kalıcı başvuru kaydı, analitik olayları ve kaynak ilişkilendirmesini doğrula.
 4. Seçimden nitelikli görüşmeye kadar sonuçları incele; ardından sayfa deneyleri yap.
