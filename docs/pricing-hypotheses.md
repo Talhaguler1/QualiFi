@@ -1,9 +1,11 @@
 # QualiFi fiyatlandırma hipotezleri
 
 Durum: Kullanıcının ücretlendirme sorusuna yönelik öneriler. Rakip araştırmasına
-veya ölçülmüş maliyet/ödeme isteğine dayanmıyor; fiyatlar sitede uygulanmadı.
-Hedef ülke ve para birimi kesinleşmediği için aşağıdaki USD tutarları yalnızca
-karşılaştırılabilir test referansıdır; vergi dahil nihai teklif değildir.
+veya ölçülmüş maliyet/ödeme isteğine dayanmıyor. Kullanıcı Türkiye ve uluslararası
+pazarı ayrı hedefliyor. Tüm TR kampanya sayfalarında fiyat gizli. EN sözleşme/nakit
+sayfasında 29 USD/analiz ve EN Gmail follow-up sayfasında 99 USD/işletme/ay
+`planlanan fiyat` olarak gösteriliyor; diğer sayfalarda fiyat yok. Bunlar vergi dahil
+nihai teklifler değildir ve şu an ödeme alınmıyor.
 
 ## Önerilen model
 

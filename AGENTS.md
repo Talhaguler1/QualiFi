@@ -3,6 +3,10 @@
 ## Proje
 
 - Ortak TR/EN sayfa üretimi ve hedef kitle rotaları: `site.cjs`.
+- Yedi kampanya ve 14 TR/EN adres: `campaigns.cjs`; tek amaçlı sayfa üretimi:
+  `campaign-site.cjs`; etkileşim ve tasarım: `campaign.js`, `campaign.css`.
+- Kampanya dizinleri: `/kampanyalar`, `/en/campaigns`. Windows yerel açılışı:
+  `start-windows.cmd` (Node.js 24+ gerekir); `npm run preview` aynı dizini açar.
 - İngilizce/Türkçe HTML kopyaları: `index.html`, `tr.html`;
   `site.cjs` değiştiğinde `npm run build:pages` ile güncelle.
 - Paylaşılan tasarım: `style.css`; etkileşimler: `app.js`.
@@ -18,7 +22,14 @@
 - En güncel kampanya yönü `docs/campaign-pages.md`: her reklam sayfası tek
   hedef grup/problem/teklif/ana CTA etrafında kurulacak. Demo 20 dakika;
   Gmail/model yetenekleri kullanıcı tarafından geliştirilmesi düşünülen kapsamdır.
-  Yedi sayfa şu anda taslaktır; canlı entegrasyon ve fiyat varsayma.
+  Yedi sayfanın TR/EN kampanya uygulaması hazırdır; canlı entegrasyon varsayma.
+- Kullanıcının fiyat kararı: tüm TR kampanyalarında fiyat gizli; yalnızca EN
+  sözleşme/nakit sayfasında planlanan 29 USD/analiz ve EN Gmail follow-up
+  sayfasında planlanan 99 USD/ay gösterilir. Bunlar ödeme alınan fiyatlar değildir.
+- Kullanıcının görünür iletişim bilgisi: Muhammed Talha Güler,
+  `talha.guler@ozu.edu.tr`; bu adres kullanıcı tarafından siteye eklenmek üzere verildi.
+- Ana kampanya metriği `primary_cta_clicked` / `landing_viewed` tekil ziyaretçi
+  oranıdır; rapor sayfa, dil, teklif, CTA amacı ve fiyat gösterimiyle ayrılır.
 - Son kullanıcı düzeltmesi: ilk deneyin ana hedefi sayfaya özel tek CTA'ya
   tıklamadır (bekleme listesi, sözleşme ekleme vb.). Demo sonraki adımdır;
   tüm sayfaların birincil hedefini demo rezervasyonuna çevirme. CTA tıklamasını

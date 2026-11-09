@@ -11,6 +11,9 @@ TR/EN KOBİ, freelancer, finans ekibi ve banka pilot sayfaları; üç adımlı p
 talebi, dosya kaydı, bekleme listesi, görüşme talebi ve izinli birinci taraf ölçüm
 uygulandı. Takvim bağlantısı yapılandırılabilir; henüz gerçek bağlantı verilmedi.
 Canlı ajanlar, dış veri entegrasyonları ve model analizi uygulanmadı.
+Ek olarak, probleme göre yedi tek amaçlı kampanya sayfasının ayrı TR/EN sürümleri
+uygulandı. `/kampanyalar` dizini üzerinden 14 adrese erişilebilir; en güncel
+CTA, ölçüm ve fiyat gösterimi kuralları `campaign-pages.md` dosyasındadır.
 Kullanıcının onayladığı yön doğrultusundaki uygulama sırası ve tamamlanma
 ölçütleri [`roadmap.md`](roadmap.md) dosyasındadır.
 

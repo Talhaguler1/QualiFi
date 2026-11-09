@@ -26,6 +26,8 @@ try {
     if (process.argv.includes('--json')) console.log(JSON.stringify(report, null, 2));
     else {
       console.log('QualiFi — recorded requests'); console.table(report.leads);
+      console.log('Campaign pages: unique CTA click rate by page / language / price exposure'); console.table(report.campaignCta);
+      console.log('Campaign form records (including analytics opt-outs)'); console.table(report.campaignRecords);
       console.log('Card exposure → selection → pilot (same visitors, after exposure)'); console.table(report.funnel);
       console.log('Measured visitor events'); console.table(report.events);
       console.log('Solution funnel (consented visitors)'); console.table(report.solutions);

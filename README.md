@@ -5,6 +5,50 @@ server-rendered with Node.js. The server stores requests and measurement events
 in a private SQLite database. There is no live AI analysis, email/WhatsApp
 connection, automatic agent activation, or outbound email sender in this version.
 
+## Open the campaign pages locally
+
+On Windows, extract the ZIP first, then double-click **`start-windows.cmd`** inside
+the extracted project folder. With Node.js 24+ installed, it starts the server
+and opens `http://localhost:3000/kampanyalar` in your default browser. Keep the
+terminal window open. This native Windows launcher has not been executed in the
+Linux development environment; the underlying server/routes are integration-tested.
+
+Alternatively, run `npm run preview` from the project directory. It prints the
+same address (automatic browser opening is Windows-only). No package installation
+is required to run the site; `npm ci` is for the development tests.
+
+The directory links seven distinct offers, each available in Turkish and English:
+
+| Campaign | Turkish page | English page | Primary action |
+| --- | --- | --- | --- |
+| Contract cash flow | `/tr/sozlesmeden-nakit-akisi` | `/en/contract-cash-flow` | Add a contract / pilot interest |
+| Freelancer income plan | `/tr/freelancer-gelir-plani` | `/en/freelancer-income-plan` | Join the income-plan waitlist |
+| Receivables follow-up | `/tr/tahsilat-takibi` | `/en/receivables-follow-up` | Join the receivables pilot |
+| Gmail sales follow-up | `/tr/gmail-satis-takibi` | `/en/gmail-sales-follow-up` | Join the follow-up agent waitlist |
+| Sales outlook | `/tr/satis-ongorusu` | `/en/sales-outlook` | Join the sales-outlook waitlist |
+| WhatsApp payment follow-up | `/tr/whatsapp-odeme-takibi` | `/en/whatsapp-payment-follow-up` | Register WhatsApp pilot interest |
+| Bank risk pilot | `/tr/banka-risk-pilotu` | `/en/bank-risk-pilot` | Register corporate interest |
+
+English directory: `/en/campaigns`. Each language switch keeps the same campaign
+and only the allowed UTM parameters. The original general/segment pages below
+remain available for organic navigation; ad campaigns can link directly to the
+new focused pages. Campaign copy is in `campaigns.cjs`, rendering in
+`campaign-site.cjs`, behavior in `campaign.js`, and styling in `campaign.css`.
+
+Every campaign repeats **one primary CTA**, measured as `primary_cta_clicked`
+before form validation or contact collection. A demo is a post-interest option,
+never a competing CTA on the initial campaign page. No fake analysis/account
+connection is shown after a click; the form states the pilot stage explicitly.
+
+By the owner's decision, all Turkish campaign pages hide prices. Only the
+English contract cash-flow page shows **planned $29/analysis**, and the English
+Gmail follow-up page shows **planned $99/business/month**. These are explicitly
+pricing hypotheses, not purchasable packages; no payment is collected.
+
+The owner supplied the public contact shown on campaign pages:
+**Muhammed Talha Güler — talha.guler@ozu.edu.tr**. This is contact copy, not an
+email-sending integration or evidence of institutional endorsement.
+
 ## Run
 
 Requires **Node.js 24+** (built-in `node:sqlite`). No production package installation
@@ -129,6 +173,26 @@ not the exposure denominator. Browser blocking and opt-outs limit coverage.
 These data do not automatically establish product preference or market fit.
 Qualification and meeting attendance still need team follow-up; they are not
 inferred automatically. Schedule pruning yourself; retention is not automatic.
+
+The new `campaignCta` report separately groups campaign ID, localized page ID,
+offer, CTA goal, page version and price exposure. Its primary rate is unique
+visitors who clicked the primary CTA divided by measured unique page visitors.
+Repeated clicks on different copies of the same button count once per visitor
+for the rate. Form starts and saved registrations remain separate columns.
+Only post-view behavior on the same localized page is matched. Non-consented
+submissions appear in `campaignRecords`, outside the measured visitor denominator.
+Language describes the page/target market, not an observed geographic location.
+
+Campaign metadata is derived from the server-side catalog, not trusted from the
+request body. Submissions are deduplicated within a localized page, allowing
+the same email to express interest in different offers/languages. Consequently,
+the sum of page records is not a globally unique person count.
+
+On first use of the new schema, the existing SQLite lead table is migrated in
+a transaction to add `page_id`. Existing rows become `legacy`; contract and
+booking relationships are preserved. Migration and cascading deletion are
+covered with a populated old-schema test. Back up existing production data
+before application upgrades.
 
 ## Deployment configuration
 

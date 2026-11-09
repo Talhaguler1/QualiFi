@@ -1,6 +1,6 @@
 {
   "name": "qualifi-landing",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "QualiFi audience landing pages and measurable pilot requests",
   "engines": {
@@ -9,10 +9,11 @@
   "scripts": {
     "dev": "node --env-file-if-exists=.env server.cjs",
     "start": "node --env-file-if-exists=.env server.cjs",
-    "check": "node --check app.js && node --check server.cjs && node --check site.cjs && node --check store.cjs && node --check scripts/report.cjs && node --check scripts/build-pages.cjs",
+    "check": "node --check app.js && node --check campaign.js && node --check server.cjs && node --check site.cjs && node --check campaigns.cjs && node --check campaign-site.cjs && node --check store.cjs && node --check scripts/report.cjs && node --check scripts/build-pages.cjs && node --check scripts/open-local.cjs",
     "test": "node --test test/*.test.cjs",
     "build:pages": "node scripts/build-pages.cjs",
-    "report": "node --env-file-if-exists=.env scripts/report.cjs"
+    "report": "node --env-file-if-exists=.env scripts/report.cjs",
+    "preview": "node --env-file-if-exists=.env scripts/open-local.cjs"
   },
   "devDependencies": {
     "jsdom": "^31.0.0"

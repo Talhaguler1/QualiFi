@@ -5,7 +5,9 @@ const { isUtf8 } = require('node:buffer');
 const { createHmac, timingSafeEqual } = require('node:crypto');
 const { openStore } = require('./store.cjs');
 const { renderPage, resolveRoute } = require('./site.cjs');
-const EVENT_NAMES = new Set(['landing_viewed', 'solution_viewed', 'solution_selected', 'agent_cta_clicked', 'agent_setup_started', 'outcome_selected', 'contract_selected', 'channel_preference_selected', 'lead_form_opened', 'lead_form_started', 'calendar_opened']);
+const { BY_ID, resolveCampaign, metadata } = require('./campaigns.cjs');
+const { renderCampaign, renderCampaignDirectory } = require('./campaign-site.cjs');
+const EVENT_NAMES = new Set(['landing_viewed', 'primary_cta_clicked', 'solution_viewed', 'solution_selected', 'agent_cta_clicked', 'agent_setup_started', 'outcome_selected', 'contract_selected', 'channel_preference_selected', 'lead_form_opened', 'lead_form_started', 'calendar_opened']);
 const SEGMENTS = new Set(['business', 'freelance', 'finance', 'banks']);
 const SOLUTIONS = new Set(['forecast', 'autopilot', 'risk']);
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
@@ -21,13 +23,16 @@ function safeCampaign(value) { const s = clean(value, 100); return /^[a-zA-Z0-9_
 function context(body) {
   const c = body.context || {};
   if (!SEGMENTS.has(c.segment) || !['en', 'tr'].includes(c.locale)) throw fail(400, 'invalid_context');
+  const campaignDefinition = c.campaignId ? BY_ID[c.campaignId] : null;
+  if (c.campaignId && (!campaignDefinition || campaignDefinition.segment !== c.segment)) throw fail(400, 'invalid_campaign');
   const visitorId = c.analyticsConsent === true && UUID.test(c.visitorId || '') ? c.visitorId : null;
   const campaign = {};
   for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']) {
     campaign[key] = safeCampaign(c[key]);
     campaign[`last_${key}`] = safeCampaign(c[`last_${key}`]);
   }
-  return { segment: c.segment, locale: c.locale, visitorId, pageVersion: 'landing-v1', ...campaign, entryOffer: SOLUTIONS.has(c.entryOffer) ? c.entryOffer : null };
+  return { segment: c.segment, locale: c.locale, visitorId, pageVersion: 'landing-v1', ...campaign, entryOffer: SOLUTIONS.has(c.entryOffer) ? c.entryOffer : null,
+    ...(campaignDefinition ? metadata(campaignDefinition, c.locale) : {}) };
 }
 async function readJSON(req, limit = 32 * 1024) {
   if (!(req.headers['content-type'] || '').startsWith('application/json')) throw fail(415, 'json_required');
@@ -65,9 +70,12 @@ function createApp(options = {}) {
       if (req.method === 'GET' || req.method === 'HEAD') {
         if (route === '/api/config') return send(200, { calendarUrl, maxFileBytes: MAX_FILE, agentLive: false });
         if (route === '/api/health') return send(200, { ok: true });
+        if (route === '/kampanyalar' || route === '/en/campaigns') return send(200, renderCampaignDirectory(route === '/kampanyalar' ? 'tr' : 'en'), 'text/html; charset=utf-8');
+        const campaign = resolveCampaign(route);
+        if (campaign) return send(200, renderCampaign(campaign.locale, campaign.campaign), 'text/html; charset=utf-8');
         const page = resolveRoute(route);
         if (page) return send(200, renderPage(page.locale, page.segment), 'text/html; charset=utf-8');
-        const assets = { '/style.css': 'text/css; charset=utf-8', '/app.js': 'text/javascript; charset=utf-8', '/favicon.svg': 'image/svg+xml' };
+        const assets = { '/style.css': 'text/css; charset=utf-8', '/app.js': 'text/javascript; charset=utf-8', '/campaign.css': 'text/css; charset=utf-8', '/campaign.js': 'text/javascript; charset=utf-8', '/favicon.svg': 'image/svg+xml' };
         if (assets[route]) return send(200, fs.readFileSync(path.join(__dirname, route.slice(1))), assets[route]);
         return send(404, { error: 'not_found' });
       }
@@ -109,9 +117,11 @@ function createApp(options = {}) {
       if (route === '/api/events') {
         if (!ctx.visitorId) throw fail(400, 'analytics_consent_required');
         if (!EVENT_NAMES.has(body.event) || !UUID.test(body.id || '')) throw fail(400, 'invalid_event');
-        const allowed = { cta: ['agent', 'meeting', 'waitlist'], solution: ['forecast', 'autopilot', 'risk'], position: ['hero', 'nav', 'offer', 'footer', 'dialog', '1', '2'], fileMode: ['sample', 'upload'], channel: ['email', 'whatsapp', 'undecided'] };
+        if (body.event === 'primary_cta_clicked' && !ctx.campaignId) throw fail(400, 'campaign_required');
+        const allowed = { cta: ['agent', 'meeting', 'waitlist'], solution: ['forecast', 'autopilot', 'risk'], position: ['hero', 'nav', 'offer', 'footer', 'dialog', 'journey', 'price', '1', '2'], fileMode: ['sample', 'upload'], channel: ['email', 'whatsapp', 'undecided'] };
         const props = {};
         for (const [key, values] of Object.entries(allowed)) if (values.includes(body.properties?.[key])) props[key] = body.properties[key];
+        if (ctx.campaignId) props.solution = BY_ID[ctx.campaignId].solution;
         store.event(body.id, body.event, ctx, props);
         return send(200, { ok: true });
       }
@@ -120,10 +130,15 @@ function createApp(options = {}) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || body.consent !== true) throw fail(400, 'email_and_consent_required');
       const solution = SOLUTIONS.has(body.solution) ? body.solution : 'forecast';
       if ((ctx.segment === 'banks') !== (solution === 'risk')) throw fail(400, 'invalid_solution');
+      if (ctx.campaignId) {
+        const definition = BY_ID[ctx.campaignId];
+        const expectedKind = definition.goal === 'waitlist' ? 'waitlist' : 'pilot';
+        if (solution !== definition.solution || (body.kind !== expectedKind && body.kind !== 'meeting')) throw fail(400, 'invalid_campaign_action');
+      }
       const channel = ['email', 'whatsapp', 'undecided'].includes(body.channel) ? body.channel : 'undecided';
       const fileMode = body.fileMode === 'upload' ? 'upload' : 'sample';
       if (body.kind !== 'pilot' && body.contract) throw fail(400, 'unexpected_contract');
-      const duplicate = store.db.prepare('SELECT id FROM leads WHERE id = ? OR (kind = ? AND email = ? AND segment = ? AND solution = ?)').get(body.id, body.kind, email, ctx.segment, solution);
+      const duplicate = store.db.prepare('SELECT id FROM leads WHERE id = ? OR (kind = ? AND email = ? AND segment = ? AND solution = ? AND page_id = ?)').get(body.id, body.kind, email, ctx.segment, solution, ctx.pageId || 'legacy');
       if (duplicate) return send(200, { ok: true, id: duplicate.id, duplicate: true });
       const file = body.kind === 'pilot' && fileMode === 'upload' ? decodeContract(body.contract) : null;
       const lead = { id: body.id, kind: body.kind, email, company: clean(body.company, 120), role: clean(body.role, 60), solution, channel, fileMode: body.kind === 'pilot' ? fileMode : null, context: ctx };

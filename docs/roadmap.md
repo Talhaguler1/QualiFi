@@ -6,6 +6,23 @@ servis bağlantıları ve görsel tarayıcı doğrulaması aşağıda açık bı
 Ürün ayrıntıları için [brief](landing-brief.md), kaynak
 incelemesi ve ölçüm yaklaşımı için [strateji](landing-strategy.md) esas alınır.
 
+## Güncel teslimat — Tek amaçlı kampanya sayfaları
+
+- [x] Yedi problem/teklif için ayrı TR/EN sayfaları (14 adres) ve inceleme dizini.
+- [x] Her sayfada aynı amaca giden tekrar eden tek birincil CTA; demo ilgi kaydı sonrasında.
+- [x] Problem, örnek konuşma/çıktı, üç çözüm adımı ve SSS'nin sayfaya göre uyarlanması.
+- [x] Kullanıcının seçimiyle tüm TR fiyatlarının gizlenmesi; seçili iki EN sayfasında planlanan USD fiyatları.
+- [x] Sayfa/dil/teklif/CTA amacı/fiyat gösterimi bazında tekil CTA tıklama raporu.
+- [x] Muhammed Talha Güler ve verilen e-posta ile gerçek iletişim alanı.
+- [x] Eski kayıtları koruyan SQLite geçişi ve yeni formların HTTP/DOM testleri.
+- [x] Windows için yerel açılış betiği ve `/kampanyalar` bağlantı dizini.
+- [ ] Windows betiğinin gerçek Windows ortamında ve görsel sayfaların tarayıcıda kontrolü.
+
+Yeni sayfa adresleri ve kararlar [kampanya brief'inde](campaign-pages.md).
+Aşağıdaki işler önceki genel sayfalar ve henüz bağlanmamış servisler için geçmiş
+uygulama durumunu gösterir. Canlı model/ajan, Gmail/WhatsApp bağlantısı, gerçek
+reklam yayını ve internet hosting'i bu teslimatta kurulmadı.
+
 ## P0 — KOBİ için ölçülebilir ilk talep akışı
 
 Hedef: KOBİ ziyaretçilerinin hangi teklif için kuruluma başlayıp gerçek talep

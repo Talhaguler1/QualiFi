@@ -11,7 +11,7 @@ function openStore(directory) {
       id TEXT PRIMARY KEY, kind TEXT NOT NULL, email TEXT NOT NULL, company TEXT,
       role TEXT, segment TEXT NOT NULL, solution TEXT NOT NULL, channel TEXT,
       file_mode TEXT, visitor_id TEXT, context TEXT NOT NULL, created_at TEXT NOT NULL,
-      UNIQUE(kind, email, segment, solution));
+      page_id TEXT NOT NULL DEFAULT 'legacy', UNIQUE(kind, email, segment, solution, page_id));
     CREATE TABLE IF NOT EXISTS contracts (
       lead_id TEXT PRIMARY KEY REFERENCES leads(id) ON DELETE CASCADE,
       mime TEXT NOT NULL, size INTEGER NOT NULL, data BLOB NOT NULL);
@@ -23,6 +23,23 @@ function openStore(directory) {
       id TEXT PRIMARY KEY, lead_id TEXT NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
       starts_at TEXT NOT NULL, created_at TEXT NOT NULL);
   `);
+  // Migrate the original four-page database without losing leads, files or bookings.
+  if (!db.prepare('PRAGMA table_info(leads)').all().some(column => column.name === 'page_id')) {
+    db.exec('PRAGMA foreign_keys = OFF; BEGIN IMMEDIATE');
+    try {
+      db.exec(`CREATE TABLE leads_campaign (
+        id TEXT PRIMARY KEY, kind TEXT NOT NULL, email TEXT NOT NULL, company TEXT,
+        role TEXT, segment TEXT NOT NULL, solution TEXT NOT NULL, channel TEXT,
+        file_mode TEXT, visitor_id TEXT, context TEXT NOT NULL, created_at TEXT NOT NULL,
+        page_id TEXT NOT NULL DEFAULT 'legacy', UNIQUE(kind, email, segment, solution, page_id));
+        INSERT INTO leads_campaign SELECT *, 'legacy' FROM leads;
+        DROP TABLE leads;
+        ALTER TABLE leads_campaign RENAME TO leads;
+        COMMIT;`);
+    } catch (error) { db.exec('ROLLBACK'); throw error; }
+    finally { db.exec('PRAGMA foreign_keys = ON'); }
+    if (db.prepare('PRAGMA foreign_key_check').all().length) throw new Error('Database migration failed foreign key validation.');
+  }
   const insertEvent = db.prepare('INSERT OR IGNORE INTO events VALUES (?, ?, ?, ?, ?, ?, ?)');
   function event(id, name, context, properties = {}) {
     insertEvent.run(id, name, context.visitorId, context.segment, JSON.stringify(context), JSON.stringify(properties), new Date().toISOString());
@@ -30,7 +47,7 @@ function openStore(directory) {
   function saveLead(lead, file) {
     db.exec('BEGIN IMMEDIATE');
     try {
-      db.prepare('INSERT INTO leads VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(lead.id, lead.kind, lead.email, lead.company, lead.role, lead.context.segment, lead.solution, lead.channel, lead.fileMode, lead.context.visitorId, JSON.stringify(lead.context), new Date().toISOString());
+      db.prepare('INSERT INTO leads (id, kind, email, company, role, segment, solution, channel, file_mode, visitor_id, context, created_at, page_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(lead.id, lead.kind, lead.email, lead.company, lead.role, lead.context.segment, lead.solution, lead.channel, lead.fileMode, lead.context.visitorId, JSON.stringify(lead.context), new Date().toISOString(), lead.context.pageId || 'legacy');
       if (file) { db.prepare('INSERT INTO contracts VALUES (?, ?, ?, ?)').run(lead.id, file.type, file.size, file.data); event(randomUUID(), 'contract_upload_completed', lead.context, { solution: lead.solution, fileMode: 'upload' }); }
       event(randomUUID(), { pilot: 'pilot_request_created', waitlist: 'waitlist_joined', meeting: 'meeting_requested' }[lead.kind], lead.context, { solution: lead.solution, fileMode: lead.fileMode });
       db.exec('COMMIT');
@@ -49,6 +66,41 @@ function openStore(directory) {
 }
 function summarize(db) {
   return {
+    campaignCta: db.prepare(`WITH visits AS (
+      SELECT visitor_id, json_extract(context, '$.pageId') AS page_id,
+        json_extract(context, '$.campaignId') AS campaign_id,
+        json_extract(context, '$.locale') AS locale,
+        json_extract(context, '$.pageVersion') AS version,
+        json_extract(context, '$.priceVariant') AS price_variant,
+        json_extract(context, '$.ctaGoal') AS cta_goal,
+        min(created_at) AS first_seen
+      FROM events WHERE name = 'landing_viewed' AND visitor_id IS NOT NULL
+        AND json_extract(context, '$.campaignId') IS NOT NULL
+      GROUP BY visitor_id, page_id, campaign_id, locale, version, price_variant, cta_goal
+    ), behaviors AS (
+      SELECT v.*,
+        EXISTS(SELECT 1 FROM events e WHERE e.visitor_id = v.visitor_id
+          AND json_extract(e.context, '$.pageId') = v.page_id
+          AND json_extract(e.context, '$.pageVersion') = v.version
+          AND json_extract(e.context, '$.priceVariant') = v.price_variant
+          AND e.name = 'primary_cta_clicked' AND e.created_at >= v.first_seen) AS clicked,
+        EXISTS(SELECT 1 FROM events e WHERE e.visitor_id = v.visitor_id
+          AND json_extract(e.context, '$.pageId') = v.page_id
+          AND json_extract(e.context, '$.pageVersion') = v.version
+          AND e.name = 'lead_form_started' AND e.created_at >= v.first_seen) AS form_started,
+        EXISTS(SELECT 1 FROM events e WHERE e.visitor_id = v.visitor_id
+          AND json_extract(e.context, '$.pageId') = v.page_id
+          AND json_extract(e.context, '$.pageVersion') = v.version
+          AND e.name IN ('waitlist_joined', 'pilot_request_created') AND e.created_at >= v.first_seen) AS registered
+      FROM visits v
+    ) SELECT page_id, campaign_id, locale, version, price_variant, cta_goal,
+        count(*) AS measured_visitors, sum(clicked) AS cta_visitors,
+        sum(form_started) AS form_visitors, sum(registered) AS registered_visitors
+      FROM behaviors GROUP BY page_id, campaign_id, locale, version, price_variant, cta_goal`).all().map(row => ({
+        ...row, cta_percent: Number((100 * row.cta_visitors / row.measured_visitors).toFixed(1)) })),
+    campaignRecords: db.prepare(`SELECT page_id, kind, count(*) AS records,
+      sum(visitor_id IS NOT NULL) AS measured_records FROM leads WHERE page_id <> 'legacy'
+      GROUP BY page_id, kind`).all(),
     funnel: db.prepare(`WITH exposures AS (
       SELECT segment, visitor_id, json_extract(properties, '$.solution') AS solution, min(created_at) AS first_seen
       FROM events WHERE name = 'solution_viewed' AND visitor_id IS NOT NULL

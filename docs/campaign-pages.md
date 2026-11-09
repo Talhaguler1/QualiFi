@@ -1,9 +1,32 @@
 # QualiFi: probleme göre kampanya sayfaları
 
-Durum: Kullanıcının son açıklamalarından türetilmiş sayfa ve demo brief'i.
-Bu yedi kampanya sayfası henüz uygulanmadı; mevcut dört segment sayfasının
-yerine geçecek veya onlardan ayrışacak önerilerdir. Hedef gruplar ve problemler
-müşteri görüşmeleriyle doğrulanmış kabul edilmemeli.
+Durum: Yedi kampanya, ayrı TR/EN adresleriyle uygulandı (14 sayfa). Sayfa dizini
+`/kampanyalar`, İngilizce dizin `/en/campaigns`. Mevcut genel/segment sayfaları
+korunuyor; reklamlar tek amaçlı yeni sayfalara yönlendirilebilir. Hedef gruplar ve
+problemler müşteri görüşmeleriyle doğrulanmış kabul edilmemeli.
+
+## Uygulanan sayfalar
+
+| Kimlik | Türkçe | İngilizce | Tek ana CTA amacı |
+| --- | --- | --- | --- |
+| `cashflow` | `/tr/sozlesmeden-nakit-akisi` | `/en/contract-cash-flow` | Sözleşme ekleme ilgisi → pilot formu |
+| `project-income` | `/tr/freelancer-gelir-plani` | `/en/freelancer-income-plan` | Gelir planı bekleme listesi |
+| `collections` | `/tr/tahsilat-takibi` | `/en/receivables-follow-up` | Tahsilat takibi erken erişimi |
+| `sales-follow-up` | `/tr/gmail-satis-takibi` | `/en/gmail-sales-follow-up` | Gmail follow-up bekleme listesi |
+| `sales-forecast` | `/tr/satis-ongorusu` | `/en/sales-outlook` | Satış öngörüsü bekleme listesi |
+| `whatsapp` | `/tr/whatsapp-odeme-takibi` | `/en/whatsapp-payment-follow-up` | WhatsApp pilot ilgisi |
+| `bank-risk` | `/tr/banka-risk-pilotu` | `/en/bank-risk-pilot` | Kurumsal pilot ilgisi |
+
+Kullanıcının son seçimleri uygulandı: TR sayfalarında fiyat yok. Yalnızca EN
+`cashflow` sayfasında planlanan 29 USD/analiz ve EN `sales-follow-up` sayfasında
+planlanan 99 USD/işletme/ay gösteriliyor. Nihai kapsam ve limitler henüz belirlenmedi;
+ödeme alınmıyor. Görünür iletişim: Muhammed Talha Güler, talha.guler@ozu.edu.tr.
+
+Brex referansından kısa form, Chert referansından konuşma içinde çıktı örneği
+yaklaşımı alındı; QualiFi'nin mevcut yeşil görsel kimliği korundu. Kampanya
+sayfalarında segment menüsü ve demo/bekleme listesi gibi yarışan ana CTA'lar yok.
+Tüm baskın CTA tekrarları aynı forma ve amaca gidiyor. Görsellerin dönüşüm
+performansı hakkında veri sağlanmadı; referanslar başarı kanıtı olarak kullanılmadı.
 
 ## Son kullanıcı düzeltmesi: önce CTA ilgisi
 
@@ -25,8 +48,8 @@ sohbet arayüzü bu görevler ve sonuçlarla tek giriş noktası sağlar. Bu bir
 mimarisi vizyonudur; depoda çalışan ajan orkestrasyonu henüz bulunmuyor.
 
 Ücretlendirme önerileri ve deney sırası [`pricing-hypotheses.md`](pricing-hypotheses.md)
-dosyasındadır. Bunlar kamuya uygulanmış fiyatlar veya araştırılmış piyasa
-fiyatları değildir.
+dosyasındadır. Yukarıdaki iki EN sayfasında görünür test fiyatı uygulanmıştır;
+bunlar araştırılmış piyasa fiyatları veya satın alınabilir paketler değildir.
 
 ## Kullanıcıdan gelen yeni bilgiler
 
@@ -39,7 +62,8 @@ fiyatları değildir.
 - İlk 1000 demoyu ücretsiz sunma fikri var. Kota/koşullar kesinleşmedi;
   gerçek rezervasyon ve kapasiteye bağlı sayım kurulmadan sayaç veya kıtlık
   iddiası kullanılmayacak. Demo ile ücretli ürün/pilot bedeli ayrı açıklanacak.
-- Çözüm alt sayfalarında ücretlendirme planları isteniyor; tutarlar henüz verilmedi.
+- Çözüm alt sayfalarının bazılarında ücretlendirme isteniyor; yukarıdaki iki EN
+  sayfasında planlanan fiyat gösterimi seçildi, TR fiyatları gizli tutuluyor.
 - Ekip sayfası ve gerçek destekçi/referans bilgileri daha sonra sağlanabilir.
   Doğrulanmadan `backed by`, müşteri logosu veya başarı metriği eklenmeyecek.
 
@@ -104,10 +128,17 @@ alma akışı tanımlanmadı. Demo ücretsizliği, ürün ücretsizliği anlamı
 
 ## Sayfa bazında ölçüm
 
-Mevcut ölçüm dört segment ve üç çözüm kimliği kullanıyor. Yedi kampanya sayfasına
-geçerken sabit `page_id`, `offer_id`, birincil `cta_goal`, sayfa sürümü ve reklam
-bağlamı eklenmeli; eski kayıtlar korunmalı. Aynı segmentte farklı amaçlı yeni
-sayfaların tek kategoriye düşmesi engellenmeli.
+Kampanya ölçümüne sunucuda doğrulanan `campaignId`, `pageId` (kampanya+dil),
+`offerId`, `ctaGoal`, `pageVersion`, hedef pazar ve `priceVariant` eklendi. Tekil
+CTA tıklama oranı sayfa/dil/fiyat gösterimi bazında ayrı raporlanıyor. Aynı kişinin
+tekrar tıklamaları oranı şişirmiyor. CTA, form başlamadan ve e-posta doğrulamasından
+önce ölçülüyor. Ölçüm izni yoksa formlar çalışıyor ama ziyaretçi tıklama oranının
+paydasına alınmıyor. Eski kayıtlar ve eski sayfa raporları korunuyor.
+
+Başvuruların tekilleştirilmesine `page_id` eklendi; aynı e-posta farklı sayfalara
+ilgi bırakabilir. SQLite eski şemadan işlem içinde geçirilir; sözleşme ve rezervasyon
+bağlantılarının korunması test edildi. Toplam kayıt sayısı, tüm sayfalar arasında
+tekilleştirilmiş kişi sayısı olarak yorumlanmamalı.
 
 Takip zinciri: sayfa ziyareti → ana CTA (ilk deneyin ana hedefi) → form başlangıcı → kaydedilmiş talep →
 doğrulanmış randevu → gerçekleşen demo → nitelikli/ücretli pilot. Dosya paylaşımı
