@@ -1,7 +1,8 @@
 # QualiFi landing page: talep doğrulama ve ölçüm önerisi
 
-Durum: İnceleme ve öneri. Bu belge, çalışan bir form, analitik entegrasyonu veya
-yeni bir landing page uygulaması değildir. Kullanıcının açıkladığı gerçek çözüm
+Durum: İlk kaynak incelemesi ve ölçüm yaklaşımı. Aşağıdaki inceleme bulguları ilk
+yüklenen sürüme aittir; mevcut uygulama durumunu `README.md` ve `roadmap.md` gösterir.
+Kullanıcının açıkladığı gerçek çözüm
 fikirleri, hedef gruplar ve üç CTA için güncel ürün brief'i
 [`landing-brief.md`](landing-brief.md) dosyasındadır. İçerik ve aksiyon
 önceliklerinde güncel brief esas alınmalı.

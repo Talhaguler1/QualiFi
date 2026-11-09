@@ -8,3 +8,7 @@ Thumbs.db
 coverage/
 dist/
 work/
+data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

@@ -2,11 +2,17 @@
 
 ## Proje
 
-- İngilizce sayfa: `index.html`; Türkçe sayfa: `tr.html`.
+- Ortak TR/EN sayfa üretimi ve hedef kitle rotaları: `site.cjs`.
+- İngilizce/Türkçe HTML kopyaları: `index.html`, `tr.html`;
+  `site.cjs` değiştiğinde `npm run build:pages` ile güncelle.
 - Paylaşılan tasarım: `style.css`; etkileşimler: `app.js`.
 - Yerel sunucu: `server.cjs`; çalıştırma: `npm run dev`.
-- Ek paket kurulumu veya derleme gerekmiyor.
-- Demo örnek yanıtlar kullanıyor; canlı yapay zekâ ve iletişim entegrasyonu henüz yok.
+- Çalıştırma için Node.js 24+ gerekir; üretim bağımlılığı veya derleme yok.
+- Testler için `npm ci`, doğrulama için `npm run check` ve `npm test` kullan.
+- Örnek çıktılar gösteriliyor; canlı yapay zekâ ve iletişim entegrasyonu henüz yok.
+- Kalıcı kayıtlar `store.cjs` ile SQLite'a yazılır. `data/`, `.env`, sözleşmeler
+  ve başvuru verileri Git'e eklenmez. Yeni API'lerde kişisel veri sızıntısını önle.
+- Takvim `CALENDAR_URL` ile yapılandırılır; yoksa görüşme talep formu çalışır.
 - Landing page çalışmasında kullanıcı brief'i `docs/landing-brief.md`, uygulama
   öncelikleri ve tamamlanma ölçütleri `docs/roadmap.md` dosyasındadır.
 
@@ -28,7 +34,8 @@ commit ve push edilmesini istedi. Bu yetki için her seferinde yeniden onay iste
 1. Mevcut Git durumunu ve uzak deponun doğru QualiFi deposu olduğunu kontrol et.
    Depo veya bağlantı henüz belirlenmediyse kullanıcıdan eksik bilgiyi al;
    herhangi bir depoyu tahmin ederek gönderim yapma.
-2. Değişiklikleri incele; `npm run check` çalıştır. Sayfa veya sunucu değiştiyse
+2. Değişiklikleri incele; `npm run check` çalıştır. İşlev değiştiyse ilgili
+   testleri `npm test` ile çalıştır. Sayfa veya sunucu değiştiyse
    ilgili rotaları, etkileşimleri ve iki dildeki karşılıkları uygun şekilde kontrol et.
 3. Yalnızca bu çalışmaya ait, incelenmiş dosyaları açıklayıcı bir mesajla commit et.
    `.env`, erişim anahtarları, kişisel veriler, bağımlılıklar ve geçici dosyaları ekleme.

@@ -1,7 +1,10 @@
 # QualiFi: hedef kitle, teklifler ve landing page brief'i
 
-Durum: Kullanıcının açıklamaları temel alınarak hazırlanmış uygulama önerisi.
-Sayfalar, veri bağlantıları, ajanlar ve aşağıdaki ölçüm olayları henüz uygulanmadı.
+Durum: Kullanıcının açıklamaları temel alınarak ilk uygulama tamamlandı.
+TR/EN KOBİ, freelancer, finans ekibi ve banka pilot sayfaları; üç adımlı pilot
+talebi, dosya kaydı, bekleme listesi, görüşme talebi ve izinli birinci taraf ölçüm
+uygulandı. Takvim bağlantısı yapılandırılabilir; henüz gerçek bağlantı verilmedi.
+Canlı ajanlar, dış veri entegrasyonları ve model analizi uygulanmadı.
 Kullanıcının onayladığı yön doğrultusundaki uygulama sırası ve tamamlanma
 ölçütleri [`roadmap.md`](roadmap.md) dosyasındadır.
 
@@ -43,7 +46,7 @@ olarak ele almak önerilir; kullanıcının kastettiği model türü henüz net 
 
 ## Reklam ve sayfa eşleşmeleri
 
-Aşağıdaki yollar öneridir; sunucuda henüz tanımlanmadı.
+Aşağıdaki Türkçe yollar ve İngilizce karşılıkları sunucuda tanımlandı.
 
 | Segment | Sayfa | Örnek ilk ekran mesajı | Gösterilecek senaryo |
 | --- | --- | --- | --- |
