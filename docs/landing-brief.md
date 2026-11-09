@@ -1,5 +1,11 @@
 # QualiFi: hedef kitle, teklifler ve landing page brief'i
 
+Güncel yön: kullanıcı, her reklam sayfasının belirli bir probleme ve tek ana
+CTA'ya hizmet etmesini istiyor. Son açıklanan demo kapsamı, Gmail teklifleri,
+WhatsApp belirsizliği ve yedi sayfalık taslak
+[`campaign-pages.md`](campaign-pages.md) dosyasındadır. Aşağıdaki üç CTA'lı yapı
+mevcut ilk uygulamayı tarif eder; yeni kampanya sayfaları için son yön esas alınır.
+
 Durum: Kullanıcının açıklamaları temel alınarak ilk uygulama tamamlandı.
 TR/EN KOBİ, freelancer, finans ekibi ve banka pilot sayfaları; üç adımlı pilot
 talebi, dosya kaydı, bekleme listesi, görüşme talebi ve izinli birinci taraf ölçüm

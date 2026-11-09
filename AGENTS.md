@@ -15,6 +15,10 @@
 - Takvim `CALENDAR_URL` ile yapılandırılır; yoksa görüşme talep formu çalışır.
 - Landing page çalışmasında kullanıcı brief'i `docs/landing-brief.md`, uygulama
   öncelikleri ve tamamlanma ölçütleri `docs/roadmap.md` dosyasındadır.
+- En güncel kampanya yönü `docs/campaign-pages.md`: her reklam sayfası tek
+  hedef grup/problem/teklif/ana CTA etrafında kurulacak. Demo 20 dakika;
+  Gmail/model yetenekleri kullanıcı tarafından geliştirilmesi düşünülen kapsamdır.
+  Yedi sayfa şu anda taslaktır; canlı entegrasyon ve fiyat varsayma.
 
 ## GitHub bağlantısı
 
