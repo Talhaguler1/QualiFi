@@ -34,6 +34,31 @@
   tıklamadır (bekleme listesi, sözleşme ekleme vb.). Demo sonraki adımdır;
   tüm sayfaların birincil hedefini demo rezervasyonuna çevirme. CTA tıklamasını
   kayıt, dosya yükleme, aktif ürün veya ödeme isteğiyle aynı başarı sayma.
+- Kullanıcının son seçimi: davranış izleme/Clarity/oturum kaydını şimdilik ertele;
+  kalite testlerine odaklan. Mevcut izinli CTA raporu korunur.
+
+## Her değişiklikte dönüşüm kalite kontrolü
+
+Kullanıcı her değişiklik/teslimatta 5 saniye testi ve LIFT incelemesi yapan
+bir ajan veya kontrol parçası istedi. Protokol: `docs/conversion-quality.md`.
+
+- Her mantıksal metin, tasarım, CTA, form, fiyat veya yönlendirme değişikliğinde
+  bağımsız, salt okunur bir dönüşüm inceleme ajanı kullan. Bu kullanıcı tarafından
+  istenmiş sınırlı bir inceleme delegasyonudur.
+- İnceleme hedef kitle, tek sonuç, tek CTA, Value Proposition, Relevance, Clarity,
+  Urgency, Anxiety ve Distraction alanlarını kapsasın. Gerçek ürün durumunu ve
+  ilk hedefin CTA tıklaması olduğunu koru. Otomatik sonuçlar sayfa yapısına ilişkindir.
+- `npm run quality` sözdizimi, 14 sayfa yapısı ve işlev/DOM testlerini çalıştırır.
+  `.githooks/pre-commit` etkinse bunu commit öncesinde otomatik yapar.
+- Görsel değişiklikte uygun yerel/tarayıcı ortamında BackstopJS çalıştır;
+  referans görüntülerini incelemeden otomatik `approve` yapma. Yönetimli Sites
+  ortamında desteklenen tarayıcı arayüzü yoksa görsel testi yapılmadı diye bildir.
+- Gerçek 5 saniye testi, hedef kullanıcılara ekranın 5 saniye gösterilip
+  hedef grup, sonuç ve CTA'nın hatırlanmasının sorulmasını gerektirir. Yapılmadıysa
+  bekliyor olarak kaydet. Bir ajanın yorumu veya DOM testi insan testi yerine geçmez.
+- Yapılan kontrolü ve açık belirsizlikleri son yanıtta belirt; kullanıcı testi
+  veya dönüşüm artışı için kanıt yokken başarı puanı üretme. İnceleme, rutin
+  düzeltmeler veya commit için ek kullanıcı onayı gerektirmez.
 
 ## GitHub bağlantısı
 
@@ -53,8 +78,9 @@ commit ve push edilmesini istedi. Bu yetki için her seferinde yeniden onay iste
 1. Mevcut Git durumunu ve uzak deponun doğru QualiFi deposu olduğunu kontrol et.
    Depo veya bağlantı henüz belirlenmediyse kullanıcıdan eksik bilgiyi al;
    herhangi bir depoyu tahmin ederek gönderim yapma.
-2. Değişiklikleri incele; `npm run check` çalıştır. İşlev değiştiyse ilgili
-   testleri `npm test` ile çalıştır. Sayfa veya sunucu değiştiyse
+2. Değişiklikleri incele; `npm run quality` çalıştır (etkin commit kancası
+   zaten bu tam kontrolü çalıştırır; değişiklik yoksa gereksiz tekrarlama).
+   Sayfa veya sunucu değiştiyse
    ilgili rotaları, etkileşimleri ve iki dildeki karşılıkları uygun şekilde kontrol et.
 3. Yalnızca bu çalışmaya ait, incelenmiş dosyaları açıklayıcı bir mesajla commit et.
    `.env`, erişim anahtarları, kişisel veriler, bağımlılıklar ve geçici dosyaları ekleme.

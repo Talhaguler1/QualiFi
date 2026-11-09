@@ -9,13 +9,21 @@
   "scripts": {
     "dev": "node --env-file-if-exists=.env server.cjs",
     "start": "node --env-file-if-exists=.env server.cjs",
-    "check": "node --check app.js && node --check campaign.js && node --check server.cjs && node --check site.cjs && node --check campaigns.cjs && node --check campaign-site.cjs && node --check store.cjs && node --check scripts/report.cjs && node --check scripts/build-pages.cjs && node --check scripts/open-local.cjs",
+    "check": "node --check app.js && node --check campaign.js && node --check server.cjs && node --check site.cjs && node --check campaigns.cjs && node --check campaign-site.cjs && node --check store.cjs && node --check scripts/report.cjs && node --check scripts/build-pages.cjs && node --check scripts/open-local.cjs && node --check scripts/conversion-qa.cjs && node --check backstop.config.cjs && node --check scripts/visual.cjs && node --check scripts/setup-hooks.cjs && node --check visual/on-before.cjs && node --check visual/on-ready.cjs",
     "test": "node --test test/*.test.cjs",
     "build:pages": "node scripts/build-pages.cjs",
     "report": "node --env-file-if-exists=.env scripts/report.cjs",
-    "preview": "node --env-file-if-exists=.env scripts/open-local.cjs"
+    "preview": "node --env-file-if-exists=.env scripts/open-local.cjs",
+    "quality:auto": "node scripts/conversion-qa.cjs",
+    "quality": "npm run check && npm run quality:auto && npm test",
+    "setup:hooks": "node scripts/setup-hooks.cjs",
+    "visual:reference": "node scripts/visual.cjs reference",
+    "visual:test": "node scripts/visual.cjs test",
+    "visual:approve": "node scripts/visual.cjs approve",
+    "visual:report": "node scripts/visual.cjs openReport"
   },
   "devDependencies": {
+    "backstopjs": "^6.3.25",
     "jsdom": "^31.0.0"
   }
 }

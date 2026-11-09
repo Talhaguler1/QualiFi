@@ -210,6 +210,45 @@ has been provisioned. GitHub source synchronization does not publish a live site
 
 ## Verification
 
+The persistent 5-second/LIFT review process is documented in
+[`docs/conversion-quality.md`](docs/conversion-quality.md). Run:
+
+```sh
+npm ci
+npm run setup:hooks
+npm run quality
+```
+
+The repository-local pre-commit hook runs the same quality command. It checks
+syntax, campaign structure and functional/DOM tests. The automated report is
+written to ignored `work/quality/latest.json`. It explicitly marks human
+5-second comprehension and actual visual testing as unverified; it does not
+invent a conversion score. A read-only independent conversion review is part
+of the instructions for future logical landing-page changes.
+
+BackstopJS is a development-only screenshot comparison tool, with mobile and
+desktop page/form scenarios for all 14 localized pages:
+
+```sh
+npm run visual:reference
+npm run visual:test
+npm run visual:report
+# After actually reviewing the candidate differences:
+npm run visual:approve
+```
+
+The visual runner uses a temporary database and declines analytics. References
+belong under `visual/baselines/`; candidates and reports under ignored
+`work/visual/`. Run on a local/supported browser environment. This managed Sites
+session lacks the required browser interface; the wrapper reports not-run with
+exit code 2 instead of claiming success. `CHROME_PATH` can select an installed
+Chrome. Development installation may download Puppeteer's browser; use
+`PUPPETEER_SKIP_DOWNLOAD=1` where only code tests are intended.
+
+See [`docs/conversion-review.md`](docs/conversion-review.md) for the completed
+source review and remaining product questions. Microsoft Clarity and new
+session-recording integration are paused by the owner's latest instruction.
+
 ```sh
 npm ci
 npm run check
