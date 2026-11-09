@@ -7,6 +7,8 @@
 - Yerel sunucu: `server.cjs`; çalıştırma: `npm run dev`.
 - Ek paket kurulumu veya derleme gerekmiyor.
 - Demo örnek yanıtlar kullanıyor; canlı yapay zekâ ve iletişim entegrasyonu henüz yok.
+- Landing page çalışmasında kullanıcı brief'i `docs/landing-brief.md`, uygulama
+  öncelikleri ve tamamlanma ölçütleri `docs/roadmap.md` dosyasındadır.
 
 ## GitHub bağlantısı
 

@@ -2,6 +2,8 @@
 
 Durum: Kullanıcının açıklamaları temel alınarak hazırlanmış uygulama önerisi.
 Sayfalar, veri bağlantıları, ajanlar ve aşağıdaki ölçüm olayları henüz uygulanmadı.
+Kullanıcının onayladığı yön doğrultusundaki uygulama sırası ve tamamlanma
+ölçütleri [`roadmap.md`](roadmap.md) dosyasındadır.
 
 ## Kullanıcının belirttiği ihtiyaç
 
