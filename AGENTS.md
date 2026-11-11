@@ -51,9 +51,10 @@
 - Kullanıcının 12 Kasım son seçimi: ziyaret, kaynak, CTA, form adımları ve tamamlanan
   başvuruları ölç; oturum kaydı/ısı haritası ekleme. GA4/GTM/Meta kurulu olmadığını
   düşünüyor; hesap tarafı durumu doğrulanmadı. Mevcut izinli CTA raporu korunur.
-- Kullanıcı çalışmaların qualifilab.com'a aktarılmasını istiyor. Lovable bağlı
-  deposu/dalı ve yayın yolu henüz bilinmiyor; push'u canlı yayın diye raporlama.
-  GitHub bağlantısını doğrulamadan başka projeyi yayımlama veya domaini taşıma.
+- Kullanıcı çalışmaların qualifilab.com'a aktarılmasını istiyor. Son ekran ve
+  GitHub kontrolü Lovable bağlantısını doğruladı: `Talhaguler1/qualifi-41598058`,
+  `main`; checkout `/workspace/work/qualifi-live`. Yeni web çalışmalarını orada yap.
+  Push editöre senkronize olur; canlı Lovable yayını ayrı doğrulanmalı.
 
 ## Her değişiklikte dönüşüm kalite kontrolü
 
@@ -80,10 +81,16 @@ bir ajan veya kontrol parçası istedi. Protokol: `docs/conversion-quality.md`.
 
 ## GitHub bağlantısı
 
-- Doğrulanmış depo: `https://github.com/Talhaguler1/QualiFi`.
+- **Güncel web sitesi kaynağı:** `https://github.com/Talhaguler1/qualifi-41598058`,
+  `main`. Kullanıcının Lovable ekranı ve GitHub erişimiyle doğrulandı. Oradaki
+  AGENTS.md managed bölümünü oku; veritabanı şemasını Lovable yönetiyor.
+- Bu checkout'un önceki bağımsız Node/SQLite deposu: `https://github.com/Talhaguler1/QualiFi`.
 - Git uzak adresi (`origin`): `https://github.com/Talhaguler1/QualiFi.git`.
-- Çalışma ve gönderim dalı: `main`.
-- Deponun görünürlüğü özel (`private`); kullanıcı istemedikçe değiştirme.
+- Bu önceki deponun dalı `main`, görünürlüğü private; görünürlüğü değiştirme.
+  İki geçmişi koru, bu Node sunucusunu Lovable uygulamasının üstüne kopyalama.
+- Bağlı Lovable kaynağındaki ilk API'ler kayıt yapmadan başarı dönüyordu. Orada
+  `a3d944f` ile geçici 503 guard'ı ve kurulum handoff'u eklendi; DB kurulmadan veri kaydediliyor
+  deme. Bu deponun SQLite testleri yeni portun canlı kayıt kanıtı değildir.
 - Kullanıcının görev panosu: `https://github.com/users/Talhaguler1/projects/3`.
   Pano erişimi mevcut bağlantıyla doğrulanamadı; kaynak kod aktarımı bu panoya
   değil, yukarıdaki depoya yapılır.

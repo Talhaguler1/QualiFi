@@ -3,6 +3,14 @@
 Tarih: 2026-11-12, Europe/Istanbul. Durum: kaynak/HTTP incelemesi ve uygulama taslağı.
 Bu belge canlı etiket kurulumu, reklam yayını veya hesap erişimi kanıtı değildir.
 
+**Sonraki kaynak doğrulaması:** Kullanıcı Lovable Git ekranını paylaştı; bağlı
+depo `Talhaguler1/qualifi-41598058`, dal `main`. GitHub okuma/yazma erişimi doğrulandı.
+Bu repo TanStack/Lovable portudur. Kaynağındaki `/api/leads` geçerli talebe DB yazmadan
+201/random UUID, `/api/events` kayıt yapmadan ok yanıtı veriyordu. Orada `a3d944f`
+ile geçici hata guard'ı ve Lovable veritabanı kurulumu için somut handoff eklendi. Aşağıdaki
+"bilinmiyor" kayıtları ilk HTTP incelemesinin zamanına aittir; canlı gerçek kayıt
+ve yeni sürümün yayını hâlâ doğrulanmadı. Yeni web çalışmalarını bağlı repoda yap.
+
 ## Kullanıcı hedefi
 
 Organik ve ücretli trafiğin nereden geldiğini, kampanya tekliflerine ilgiyi,
