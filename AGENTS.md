@@ -23,10 +23,14 @@
 - Yeni kayıtla `email_outbox` içinde TR/EN yanıt taslağı aynı işlemde hazırlanır;
   durum `draft`tır. Otomatik gönderici/provider henüz yok; e-posta gönderildi deme.
 - SEO: `seo.cjs`, hakkımızda/veri sayfaları: `info-site.cjs`. `PUBLIC_ORIGIN`
-  ayarlanana kadar yerel sayfalar noindex; sitemap 503'tür. Gerçek domain/hosting
-  henüz yok. Domain ve hosting sağlanmadan canlı site doğrulandı deme.
-- Kullanıcı bugün domain almayı ve iki reklamı düşünüyor; iki sayfa henüz seçilmedi.
-  Ayrıntılı gerçek durum ve yayına hazırlık: `docs/ad-launch.md`.
+  ayarlanana kadar yerel sayfalar noindex; sitemap 503'tür. Kullanıcı Lovable'dan
+  domain aldı; canlı adres https://qualifilab.com/. 12 Kasım GET kontrolünde
+  kampanyalar açılıyor, yeni bilgi sayfaları ve sitemap 404; yayın bağlantısı ve
+  canlı kalıcı kayıt henüz doğrulanmadı. Eski hazırlık notu `docs/ad-launch.md`,
+  güncel kaynak/canlı ayrımı ve ölçüm planı `docs/marketing-measurement.md`.
+- İki reklam sayfası henüz kullanıcı tarafından seçilmedi. Kullanıcı yaklaşık
+  10.000 TL, toplam 9 gün, TR/EN ve doğrudan ulaşım belirtti. Önerilen ülke/bütçe
+  dağılımını kullanıcı kararı sayma. Ortak skill bağlamı: `.agents/product-marketing.md`.
 - Landing page çalışmasında kullanıcı brief'i `docs/landing-brief.md`, uygulama
   öncelikleri ve tamamlanma ölçütleri `docs/roadmap.md` dosyasındadır.
 - En güncel kampanya yönü `docs/campaign-pages.md`: her reklam sayfası tek
@@ -44,8 +48,12 @@
   tıklamadır (bekleme listesi, sözleşme ekleme vb.). Demo sonraki adımdır;
   tüm sayfaların birincil hedefini demo rezervasyonuna çevirme. CTA tıklamasını
   kayıt, dosya yükleme, aktif ürün veya ödeme isteğiyle aynı başarı sayma.
-- Kullanıcının son seçimi: davranış izleme/Clarity/oturum kaydını şimdilik ertele;
-  kalite testlerine odaklan. Mevcut izinli CTA raporu korunur.
+- Kullanıcının 12 Kasım son seçimi: ziyaret, kaynak, CTA, form adımları ve tamamlanan
+  başvuruları ölç; oturum kaydı/ısı haritası ekleme. GA4/GTM/Meta kurulu olmadığını
+  düşünüyor; hesap tarafı durumu doğrulanmadı. Mevcut izinli CTA raporu korunur.
+- Kullanıcı çalışmaların qualifilab.com'a aktarılmasını istiyor. Lovable bağlı
+  deposu/dalı ve yayın yolu henüz bilinmiyor; push'u canlı yayın diye raporlama.
+  GitHub bağlantısını doğrulamadan başka projeyi yayımlama veya domaini taşıma.
 
 ## Her değişiklikte dönüşüm kalite kontrolü
 

@@ -26,19 +26,32 @@ async function fixture(t, { calendarUrl = '', segment = 'business', locale = 'tr
   win.IntersectionObserver = class { constructor(cb) { this.cb = cb; } observe(target) { this.cb([{ target, isIntersecting: true }]); } disconnect() {} };
   win.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
   win.HTMLDialogElement.prototype.close = function () { this.open = false; this.dispatchEvent(new win.Event('close')); };
+  function trackPending(promise) {
+    pending.add(promise);
+    promise.then(() => pending.delete(promise), () => pending.delete(promise));
+    return promise;
+  }
   win.fetch = (url, options = {}) => {
     if (options.body) calls.push({ url, body: JSON.parse(options.body) });
     let promise;
     if (failNextLead && url === '/api/leads') { failNextLead = false; promise = Promise.resolve(new Response(JSON.stringify({ error: 'unable_to_save' }), { status: 500 })); }
     else promise = fetch(new URL(url, origin), { ...options, headers: { ...options.headers, Origin: origin } });
-    pending.add(promise); promise.finally(() => pending.delete(promise)); return promise;
+    return trackPending(promise.then(response => {
+      const json = response.json.bind(response);
+      response.json = () => trackPending(json());
+      return response;
+    }));
   };
   win.eval(script);
   const $ = selector => win.document.querySelector(selector);
   const click = selector => $(selector).click();
   function fill(selector, value) { const el = $(selector); el.value = value; el.dispatchEvent(new win.Event('input', { bubbles: true })); }
   function contact(email, kind = 'agent') { fill(`#${kind === 'agent' ? 'pilot' : kind}-email`, email); $(`#${kind}-form [name="consent"]`).checked = true; }
-  t.after(async () => { await Promise.allSettled([...pending]); dom.window.close(); app.server.close(); await once(app.server, 'close'); fs.rmSync(directory, { recursive: true, force: true }); });
+  t.after(async () => {
+    // Reading a response can start the next queued analytics request.
+    do { await Promise.allSettled([...pending]); await new Promise(resolve => setImmediate(resolve)); } while (pending.size);
+    dom.window.close(); app.server.close(); await once(app.server, 'close'); fs.rmSync(directory, { recursive: true, force: true });
+  });
   return { app, $, click, fill, contact, calls, win, failLead: () => { failNextLead = true; } };
 }
 

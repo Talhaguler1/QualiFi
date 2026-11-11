@@ -85,8 +85,10 @@ yönetimli ortam çalıştırıcısı bunu hata kodu 2 ve `çalıştırılmadı`
 bildirir. Yerel veya desteklenen CI ortamında gerçek görüntüler oluşturulmalıdır.
 
 BackstopJS yalnızca geliştirme bağımlılığıdır; ziyaretçi sayfasına eklenmez.
-Microsoft Clarity/oturum kaydı entegrasyonu kullanıcının isteğiyle şimdilik
-ertelendi. Clarity'nin kendisi hesap/proje ister:
+12 Kasım'da kullanıcı ziyaret, kaynak, CTA, form adımları ve tamamlanan başvuru
+ölçümünü seçti. Microsoft Clarity/oturum kaydı ve ısı haritası bu kapsamın dışında.
+Ölçüm ve canlı sürümün güncel durumu `marketing-measurement.md` dosyasında.
+Clarity'nin kendisi hesap/proje ister:
 https://learn.microsoft.com/en-us/clarity/setup-and-installation/getting-started
 
 ## Git kaydı öncesi

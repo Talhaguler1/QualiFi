@@ -1,6 +1,11 @@
 # İki reklam öncesi yayına hazırlık
 
-## Doğrulanmış mevcut durum
+**12 Kasım güncellemesi:** Kullanıcı domaini Lovable'dan aldı; canlı adres
+https://qualifilab.com/. Kampanya GET kontrolleri başarılı; kaynak/canlı sürüm ve
+otomatik yayın bağlantısı henüz eşleşmiyor. Aşağıdaki ilk durum tespiti önceki
+hazırlık anına aittir. Güncel inceleme: [marketing-measurement.md](marketing-measurement.md).
+
+## Önceki hazırlık anındaki durum (tarihsel)
 
 - Kullanıcının sitesi şu anda yalnızca localhost'ta. Domain henüz alınmadı;
   `qualifilab` benzeri bir ad düşünülüyor. Kaynak kodun görünen markası QualiFi;
