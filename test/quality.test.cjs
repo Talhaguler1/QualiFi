@@ -43,14 +43,15 @@ test('price exposure is checked against the selected TR/EN policy', () => {
 });
 test('Backstop configuration covers every language in page/form states and two viewports', () => {
   const config = buildConfig('http://127.0.0.1:4567');
-  assert.equal(config.scenarios.length, 28); assert.equal(config.viewports.length, 2);
-  assert.equal(new Set(config.scenarios.map(s => s.label)).size, 28);
+  assert.equal(config.scenarios.length, 32); assert.equal(config.viewports.length, 2);
+  assert.equal(new Set(config.scenarios.map(s => s.label)).size, 32);
   for (const c of CAMPAIGNS) for (const locale of ['tr', 'en']) {
     const scenes = config.scenarios.filter(s => s.label.startsWith(`${c.id}-${locale}-`));
     assert.equal(scenes.length, 2);
     assert.ok(scenes.every(s => new URL(s.url).pathname === c.routes[locale]));
     assert.deepEqual(scenes.map(s => s.openForm).sort(), [false, true]);
   }
+  for (const route of ['/tr/hakkimizda', '/en/about', '/tr/veri-kullanimi', '/en/data-use']) assert.ok(config.scenarios.some(scene => new URL(scene.url).pathname === route));
 });
 test('managed runner reports the unavailable browser path instead of claiming visual success', () => {
   const result = spawnSync(process.execPath, [path.join(__dirname, '..', 'scripts', 'visual.cjs'), 'test'], { env: { ...process.env, SITES_MANAGED_LINUX_CONTAINER: '1' }, encoding: 'utf8' });

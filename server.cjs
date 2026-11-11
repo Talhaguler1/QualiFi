@@ -2,11 +2,13 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { isUtf8 } = require('node:buffer');
-const { createHmac, timingSafeEqual } = require('node:crypto');
-const { openStore } = require('./store.cjs');
+const { randomUUID, createHmac, timingSafeEqual } = require('node:crypto');
+const { openStore, dataDirectory } = require('./store.cjs');
 const { renderPage, resolveRoute } = require('./site.cjs');
 const { BY_ID, resolveCampaign, metadata } = require('./campaigns.cjs');
 const { renderCampaign, renderCampaignDirectory } = require('./campaign-site.cjs');
+const { resolveInfo, renderInfo } = require('./info-site.cjs');
+const { normalizeOrigin, decorate, sitemap, robots } = require('./seo.cjs');
 const EVENT_NAMES = new Set(['landing_viewed', 'primary_cta_clicked', 'solution_viewed', 'solution_selected', 'agent_cta_clicked', 'agent_setup_started', 'outcome_selected', 'contract_selected', 'channel_preference_selected', 'lead_form_opened', 'lead_form_started', 'calendar_opened']);
 const SEGMENTS = new Set(['business', 'freelance', 'finance', 'banks']);
 const SOLUTIONS = new Set(['forecast', 'autopilot', 'risk']);
@@ -52,30 +54,35 @@ function decodeContract(file) {
   return { data, type: file.type, size: data.length };
 }
 function createApp(options = {}) {
-  const store = openStore(options.dataDir || process.env.DATA_DIR || path.join(__dirname, 'data'));
+  const publicOrigin = normalizeOrigin(options.publicOrigin ?? process.env.PUBLIC_ORIGIN ?? '');
+  const store = openStore(options.dataDir || dataDirectory());
   const calendar = options.calendarUrl ?? process.env.CALENDAR_URL ?? '';
   let calendarUrl = '';
   try { const u = new URL(calendar); if (u.protocol === 'https:' && !u.username && !u.password) calendarUrl = u.href; } catch {}
-  const publicOrigin = options.publicOrigin || process.env.PUBLIC_ORIGIN || '';
   const webhookSecret = options.webhookSecret || process.env.BOOKING_WEBHOOK_SECRET || '';
   const limits = new Map();
   const server = http.createServer(async (req, res) => {
-    const send = (status, data, type = 'application/json; charset=utf-8') => {
-      res.writeHead(status, { ...security, 'Content-Type': type });
+    const send = (status, data, type = 'application/json; charset=utf-8', headers = {}) => {
+      res.writeHead(status, { ...security, 'Content-Type': type, ...headers });
       res.end(req.method === 'HEAD' ? undefined : type.startsWith('application/json') ? JSON.stringify(data) : data);
     };
     try {
       const url = new URL(req.url, 'http://localhost');
       const route = url.pathname.replace(/\/$/, '') || '/';
+      const sendPage = (html, noindex = false) => send(200, decorate(html, route, publicOrigin, noindex), 'text/html; charset=utf-8', !publicOrigin || noindex ? { 'X-Robots-Tag': 'noindex, follow' } : {});
       if (req.method === 'GET' || req.method === 'HEAD') {
         if (route === '/api/config') return send(200, { calendarUrl, maxFileBytes: MAX_FILE, agentLive: false });
         if (route === '/api/health') return send(200, { ok: true });
-        if (route === '/kampanyalar' || route === '/en/campaigns') return send(200, renderCampaignDirectory(route === '/kampanyalar' ? 'tr' : 'en'), 'text/html; charset=utf-8');
+        if (route === '/robots.txt') return send(200, robots(publicOrigin), 'text/plain; charset=utf-8');
+        if (route === '/sitemap.xml') return publicOrigin ? send(200, sitemap(publicOrigin), 'application/xml; charset=utf-8') : send(503, { error: 'site_origin_not_configured' });
+        const info = resolveInfo(route);
+        if (info) return sendPage(renderInfo(info.locale, info.kind));
+        if (route === '/kampanyalar' || route === '/en/campaigns') return sendPage(renderCampaignDirectory(route === '/kampanyalar' ? 'tr' : 'en'), true);
         const campaign = resolveCampaign(route);
-        if (campaign) return send(200, renderCampaign(campaign.locale, campaign.campaign), 'text/html; charset=utf-8');
+        if (campaign) return sendPage(renderCampaign(campaign.locale, campaign.campaign));
         const page = resolveRoute(route);
-        if (page) return send(200, renderPage(page.locale, page.segment), 'text/html; charset=utf-8');
-        const assets = { '/style.css': 'text/css; charset=utf-8', '/app.js': 'text/javascript; charset=utf-8', '/campaign.css': 'text/css; charset=utf-8', '/campaign.js': 'text/javascript; charset=utf-8', '/favicon.svg': 'image/svg+xml' };
+        if (page) return sendPage(renderPage(page.locale, page.segment));
+        const assets = { '/style.css': 'text/css; charset=utf-8', '/app.js': 'text/javascript; charset=utf-8', '/campaign.css': 'text/css; charset=utf-8', '/campaign.js': 'text/javascript; charset=utf-8', '/favicon.svg': 'image/svg+xml', '/social-preview.png': 'image/png' };
         if (assets[route]) return send(200, fs.readFileSync(path.join(__dirname, route.slice(1))), assets[route]);
         return send(404, { error: 'not_found' });
       }
@@ -146,7 +153,12 @@ function createApp(options = {}) {
       return send(201, { ok: true, id: lead.id });
     } catch (error) {
       if (!req.complete) req.resume();
-      if (!res.headersSent) send(error.status || 500, { error: error.status ? error.message : 'unable_to_save' });
+      if (!error.status) {
+        const reference = randomUUID().slice(0, 8);
+        const code = typeof error.code === 'string' && /^[A-Z0-9_]{1,60}$/.test(error.code) ? error.code : 'INTERNAL_ERROR';
+        (options.onError || console.error)(`QualiFi request ${reference} failed: ${code}`);
+        if (!res.headersSent) send(500, { error: 'unable_to_save', reference });
+      } else if (!res.headersSent) send(error.status, { error: error.message });
     }
   });
   server.requestTimeout = 30000; server.headersTimeout = 15000;
@@ -155,7 +167,7 @@ function createApp(options = {}) {
 }
 if (require.main === module) {
   const app = createApp(); const port = Number(process.env.PORT || 3000);
-  app.server.listen(port, process.env.HOST || '127.0.0.1', () => console.log(`QualiFi: http://localhost:${port}`));
+  app.server.listen(port, process.env.HOST || '127.0.0.1', () => console.log(`QualiFi: http://localhost:${port}\nDatabase: ${app.store.filename}\nOwner records: npm run leads\nEmail acknowledgements: drafts only; no automatic sender configured.`));
   for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => app.server.close());
 }
 module.exports = { createApp };

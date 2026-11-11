@@ -2,6 +2,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
 const { DatabaseSync } = require('node:sqlite');
+const { acknowledgement } = require('./email-templates.cjs');
+function dataDirectory(value = process.env.DATA_DIR) { return value ? path.resolve(value) : path.join(__dirname, 'data'); }
 function openStore(directory) {
   fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
   const filename = path.join(directory, 'qualifi.sqlite');
@@ -22,6 +24,10 @@ function openStore(directory) {
     CREATE TABLE IF NOT EXISTS bookings (
       id TEXT PRIMARY KEY, lead_id TEXT NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
       starts_at TEXT NOT NULL, created_at TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS email_outbox (
+      lead_id TEXT PRIMARY KEY REFERENCES leads(id) ON DELETE CASCADE,
+      recipient TEXT NOT NULL, subject TEXT NOT NULL, text_body TEXT NOT NULL,
+      html_body TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'draft', created_at TEXT NOT NULL);
   `);
   // Migrate the original four-page database without losing leads, files or bookings.
   if (!db.prepare('PRAGMA table_info(leads)').all().some(column => column.name === 'page_id')) {
@@ -50,6 +56,8 @@ function openStore(directory) {
       db.prepare('INSERT INTO leads (id, kind, email, company, role, segment, solution, channel, file_mode, visitor_id, context, created_at, page_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(lead.id, lead.kind, lead.email, lead.company, lead.role, lead.context.segment, lead.solution, lead.channel, lead.fileMode, lead.context.visitorId, JSON.stringify(lead.context), new Date().toISOString(), lead.context.pageId || 'legacy');
       if (file) { db.prepare('INSERT INTO contracts VALUES (?, ?, ?, ?)').run(lead.id, file.type, file.size, file.data); event(randomUUID(), 'contract_upload_completed', lead.context, { solution: lead.solution, fileMode: 'upload' }); }
       event(randomUUID(), { pilot: 'pilot_request_created', waitlist: 'waitlist_joined', meeting: 'meeting_requested' }[lead.kind], lead.context, { solution: lead.solution, fileMode: lead.fileMode });
+      const email = acknowledgement(lead);
+      db.prepare('INSERT INTO email_outbox VALUES (?, ?, ?, ?, ?, ?, ?)').run(lead.id, lead.email, email.subject, email.text, email.html, 'draft', new Date().toISOString());
       db.exec('COMMIT');
     } catch (e) { db.exec('ROLLBACK'); throw e; }
   }
@@ -62,7 +70,7 @@ function openStore(directory) {
       db.exec('COMMIT');
     } catch (e) { db.exec('ROLLBACK'); throw e; }
   }
-  return { db, event, saveLead, confirmBooking };
+  return { db, event, saveLead, confirmBooking, directory: path.resolve(directory), filename: path.resolve(filename) };
 }
 function summarize(db) {
   return {
@@ -121,4 +129,4 @@ function summarize(db) {
     note: 'Only consented visitors enter measured visitor counts. Operational records include opt-outs. Compare within a segment/source; these counts do not establish a causal A/B winner.'
   };
 }
-module.exports = { openStore, summarize };
+module.exports = { openStore, summarize, dataDirectory };

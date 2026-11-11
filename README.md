@@ -51,6 +51,52 @@ email-sending integration or evidence of institutional endorsement.
 
 ## Run
 
+### See the actual saved contacts
+
+On Windows, double-click **`view-leads.cmd`** in the same extracted project
+folder as the running server, or run `npm run leads`. It opens a private local
+HTML report with addresses, page/language, CSV export and unsent `.eml` reply
+drafts. The terminal and report show the exact database path. The report refuses
+to create an empty database if you run it in the wrong folder.
+
+The default database is `<project>/data/qualifi.sqlite`; `DATA_DIR` overrides it.
+If you extract another ZIP into another directory, its default database differs.
+Use a stable private data directory and backups for production. Reports are
+local files, not an unauthenticated public admin endpoint. They contain personal
+information. Generated HTML/CSV/EML exports are separate copies that must also
+be handled when responding to deletion or retention requests.
+
+### Status email drafts
+
+Each new request now queues a localized acknowledgement in SQLite `email_outbox`
+with status **`draft`**, in the same transaction as the contact record. Duplicate
+requests do not create a second acknowledgement. The owner report exports these
+as unsent EML drafts (`X-Unsent: 1`) for review in a mail application. Actual
+Windows/Outlook behavior has not been checked in this Linux environment.
+
+**No email is sent automatically.** A verified sending domain/address and an
+email provider are not connected. The current university address remains the
+public contact; it is not used as an unverified automatic sender. Copy examples
+are in [`docs/confirmation-email.md`](docs/confirmation-email.md).
+
+### Domain, trust and SEO
+
+Localized public pages are available at `/tr/hakkimizda`, `/en/about`,
+`/tr/veri-kullanimi` and `/en/data-use`. They describe the mission, vision,
+current pilot stage and actual contact. Banking-software development is a future
+ambition, with no claim of an operating bank or institutional endorsement.
+
+Set `PUBLIC_ORIGIN` to the real domain including `https://`. Trailing `/` is
+normalized; path/query/credentials are rejected. This enables absolute canonical
+and language-alternate URLs, social sharing metadata/image, `/robots.txt` and
+`/sitemap.xml`. The campaign directories stay noindex. Without a real origin,
+development pages are noindex, robots disallows crawling and sitemap returns
+503 rather than publishing a placeholder domain. Verify these HTTP responses
+on the actual host before ads. Search Console/domain verification is not done.
+
+See [`docs/ad-launch.md`](docs/ad-launch.md) for the two-campaign readiness status.
+Buying a domain alone does not host the Node server or preserve its database.
+
 Requires **Node.js 24+** (built-in `node:sqlite`). No production package installation
 or build step is needed.
 
@@ -80,7 +126,8 @@ committed HTML snapshots; regenerate with `npm run build:pages` after editing
 - **Set up an agent:** three-step pilot request (outcome, sample/own agreement and
   preferred channel, contact). It creates a pilot request, not an active agent.
 - **Waiting list:** email and explicit data-use agreement; stored separately from
-  pilot and meeting requests. Confirmation means a database record, not email verification.
+  pilot and meeting requests. Confirmation means a database record and queued
+  acknowledgement draft, not email delivery or email verification.
 - **Talk to a human:** configured external scheduling link and a working meeting
   request form. A request is not a confirmed booking. With no configured calendar,
   the page clearly offers the request form instead of fabricated availability.
@@ -227,7 +274,8 @@ invent a conversion score. A read-only independent conversion review is part
 of the instructions for future logical landing-page changes.
 
 BackstopJS is a development-only screenshot comparison tool, with mobile and
-desktop page/form scenarios for all 14 localized pages:
+desktop page/form scenarios for all 14 localized campaigns and the four localized
+About/data-use pages (64 planned screenshots total):
 
 ```sh
 npm run visual:reference

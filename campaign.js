@@ -128,8 +128,9 @@
       const result = await post('/api/leads', payload);
       form.hidden = true;
       const success = $('#campaign-success'); success.replaceChildren(); success.hidden = false;
-      const title = document.createElement('strong'); title.textContent = t('İlginiz kaydedildi.', 'Your interest is saved.');
+      const title = document.createElement('strong'); title.textContent = result.duplicate ? t('Bu sayfa için zaten kayıtlısınız.', 'You are already registered for this page.') : t('İlginiz kaydedildi.', 'Your interest is saved.');
       const text = document.createElement('p'); text.textContent = t('Bu çözüm için talebiniz alındı. Sonraki adımda 20 dakikalık bir demo üzerinden ihtiyacınızı değerlendirebiliriz. Henüz canlı ajan etkinleştirilmedi veya randevu oluşturulmadı.', 'Your request for this solution is saved. A later 20-minute demo can explore your needs. No live agent has been activated or appointment booked.');
+      if (result.duplicate) text.textContent = t('Mevcut kaydınız korundu; ikinci bir kayıt oluşturulmadı. Yeni seçtiğiniz dosya ayrıca kaydedilmedi. Değişiklik için iletişim adresimize yazabilirsiniz.', 'Your existing request is retained; no second record was created. Any newly selected file was not saved again. Contact us if you need to update your request.');
       const reference = document.createElement('small'); reference.className = 'success-reference'; reference.textContent = `${t('Kayıt', 'Reference')}: ${result.id.slice(0, 8)}`;
       success.append(title, text, reference);
       // Scheduling is a secondary, post-interest action only.

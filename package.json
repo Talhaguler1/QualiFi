@@ -1,6 +1,6 @@
 {
   "name": "qualifi-landing",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "QualiFi audience landing pages and measurable pilot requests",
   "engines": {
@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "node --env-file-if-exists=.env server.cjs",
     "start": "node --env-file-if-exists=.env server.cjs",
-    "check": "node --check app.js && node --check campaign.js && node --check server.cjs && node --check site.cjs && node --check campaigns.cjs && node --check campaign-site.cjs && node --check store.cjs && node --check scripts/report.cjs && node --check scripts/build-pages.cjs && node --check scripts/open-local.cjs && node --check scripts/conversion-qa.cjs && node --check backstop.config.cjs && node --check scripts/visual.cjs && node --check scripts/setup-hooks.cjs && node --check visual/on-before.cjs && node --check visual/on-ready.cjs",
+    "check": "node --check app.js && node --check campaign.js && node --check server.cjs && node --check site.cjs && node --check campaigns.cjs && node --check campaign-site.cjs && node --check store.cjs && node --check scripts/report.cjs && node --check scripts/build-pages.cjs && node --check scripts/open-local.cjs && node --check scripts/conversion-qa.cjs && node --check backstop.config.cjs && node --check scripts/visual.cjs && node --check scripts/setup-hooks.cjs && node --check visual/on-before.cjs && node --check visual/on-ready.cjs && node --check seo.cjs && node --check info-site.cjs && node --check email-templates.cjs && node --check scripts/leads.cjs",
     "test": "node --test test/*.test.cjs",
     "build:pages": "node scripts/build-pages.cjs",
     "report": "node --env-file-if-exists=.env scripts/report.cjs",
@@ -20,7 +20,8 @@
     "visual:reference": "node scripts/visual.cjs reference",
     "visual:test": "node scripts/visual.cjs test",
     "visual:approve": "node scripts/visual.cjs approve",
-    "visual:report": "node scripts/visual.cjs openReport"
+    "visual:report": "node scripts/visual.cjs openReport",
+    "leads": "node --env-file-if-exists=.env scripts/leads.cjs --open"
   },
   "devDependencies": {
     "backstopjs": "^6.3.25",

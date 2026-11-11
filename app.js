@@ -223,8 +223,8 @@
       const success = $('.form-success', form.closest('dialog'));
       const title = { pilot: t('Pilot talebiniz alındı.', 'Your pilot request is saved.'), waitlist: t('Listedesiniz.', 'You’re on the list.'), meeting: t('Görüşme talebiniz alındı.', 'Your meeting request is saved.') }[kind];
       const detail = { pilot: t('Ekibimiz kapsamı değerlendirmek için bıraktığınız e-posta üzerinden iletişime geçebilir. Bu işlem canlı ajan etkinleştirmez.', 'Our team can contact you at the email you provided to discuss scope. This does not activate a live agent.'), waitlist: t('Pilot ve erken erişim gelişmelerini paylaşmak için e-posta adresiniz kaydedildi.', 'Your email has been saved for pilot and early-access updates.'), meeting: t('Bu bir görüşme talebidir; henüz gün ve saat rezervasyonu yapılmadı.', 'This is a conversation request; no date or time has been reserved yet.') }[kind];
-      const strong = document.createElement('strong'); strong.textContent = title;
-      const p = document.createElement('p'); p.textContent = detail;
+      const strong = document.createElement('strong'); strong.textContent = result.duplicate ? t('Bu sayfa için zaten kayıtlısınız.', 'You are already registered for this page.') : title;
+      const p = document.createElement('p'); p.textContent = result.duplicate ? t('Mevcut kaydınız korundu. İkinci bir kayıt veya yeni dosya kaydı oluşturulmadı.', 'Your existing request is retained. No second record or new file was saved.') : detail;
       const reference = document.createElement('span'); reference.className = 'success-reference'; reference.textContent = `${t('Kayıt', 'Reference')}: ${result.id.slice(0, 8)}`;
       success.replaceChildren(strong, p, reference); success.hidden = false; form.hidden = true;
       const restart = document.createElement('button');

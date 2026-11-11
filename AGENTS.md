@@ -17,6 +17,16 @@
 - Kalıcı kayıtlar `store.cjs` ile SQLite'a yazılır. `data/`, `.env`, sözleşmeler
   ve başvuru verileri Git'e eklenmez. Yeni API'lerde kişisel veri sızıntısını önle.
 - Takvim `CALENDAR_URL` ile yapılandırılır; yoksa görüşme talep formu çalışır.
+- Kayıtlar sunucunun özel `DATA_DIR/qualifi.sqlite` dosyasındadır; gelen kutusu
+  veya GitHub'a aktarılmaz. Yerel görüntüleme: `view-leads.cmd` / `npm run leads`.
+  Rapor özel HTML/CSV/EML üretir; bunları web rotası veya Git dosyası olarak sunma.
+- Yeni kayıtla `email_outbox` içinde TR/EN yanıt taslağı aynı işlemde hazırlanır;
+  durum `draft`tır. Otomatik gönderici/provider henüz yok; e-posta gönderildi deme.
+- SEO: `seo.cjs`, hakkımızda/veri sayfaları: `info-site.cjs`. `PUBLIC_ORIGIN`
+  ayarlanana kadar yerel sayfalar noindex; sitemap 503'tür. Gerçek domain/hosting
+  henüz yok. Domain ve hosting sağlanmadan canlı site doğrulandı deme.
+- Kullanıcı bugün domain almayı ve iki reklamı düşünüyor; iki sayfa henüz seçilmedi.
+  Ayrıntılı gerçek durum ve yayına hazırlık: `docs/ad-launch.md`.
 - Landing page çalışmasında kullanıcı brief'i `docs/landing-brief.md`, uygulama
   öncelikleri ve tamamlanma ölçütleri `docs/roadmap.md` dosyasındadır.
 - En güncel kampanya yönü `docs/campaign-pages.md`: her reklam sayfası tek

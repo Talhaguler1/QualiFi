@@ -1,6 +1,12 @@
 const path = require('node:path');
-const { openStore, summarize } = require('../store.cjs');
-const store = openStore(process.env.DATA_DIR || path.join(__dirname, '..', 'data'));
+const fs = require('node:fs');
+const { openStore, summarize, dataDirectory } = require('../store.cjs');
+const directory = dataDirectory();
+if (!fs.existsSync(path.join(directory, 'qualifi.sqlite'))) {
+  console.error(`No database found at ${path.join(directory, 'qualifi.sqlite')}. Check the active server folder and DATA_DIR; no empty database was created.`);
+  process.exit(1);
+}
+const store = openStore(directory);
 try {
   const deletion = process.argv.find(a => a.startsWith('--delete='));
   const prune = process.argv.find(a => a.startsWith('--prune='));
@@ -20,11 +26,12 @@ try {
     } catch (e) { store.db.exec('ROLLBACK'); throw e; }
   } else if (process.argv.includes('--export-leads')) {
     // Owner-only CLI; this output includes contact information. Never expose as a public route.
-    console.log(JSON.stringify(store.db.prepare('SELECT id, kind, email, company, role, segment, solution, channel, file_mode, context, created_at FROM leads ORDER BY created_at DESC').all(), null, 2));
+    console.log(JSON.stringify(store.db.prepare('SELECT id, kind, email, company, role, segment, solution, channel, file_mode, page_id, context, created_at FROM leads ORDER BY created_at DESC').all(), null, 2));
   } else {
     const report = summarize(store.db);
     if (process.argv.includes('--json')) console.log(JSON.stringify(report, null, 2));
     else {
+      console.log('Database:', store.filename);
       console.log('QualiFi — recorded requests'); console.table(report.leads);
       console.log('Campaign pages: unique CTA click rate by page / language / price exposure'); console.table(report.campaignCta);
       console.log('Campaign form records (including analytics opt-outs)'); console.table(report.campaignRecords);

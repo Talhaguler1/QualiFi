@@ -1,5 +1,6 @@
 const path = require('node:path');
 const { CAMPAIGNS } = require('./campaigns.cjs');
+const { INFO_ROUTES } = require('./info-site.cjs');
 const root = __dirname;
 function buildConfig(baseUrl = 'http://127.0.0.1:3000') {
   const scenarios = CAMPAIGNS.flatMap(campaign => ['tr', 'en'].flatMap(locale => [false, true].map(openForm => ({
@@ -10,6 +11,12 @@ function buildConfig(baseUrl = 'http://127.0.0.1:3000') {
     onBeforeScript: 'on-before.cjs', onReadyScript: 'on-ready.cjs',
     misMatchThreshold: 0.1, requireSameDimensions: true
   }))));
+  for (const [kind, languages] of Object.entries(INFO_ROUTES)) for (const [locale, route] of Object.entries(languages)) scenarios.push({
+    label: `info-${kind}-${locale}`, url: new URL(route, baseUrl).href,
+    readySelector: 'h1', selectors: ['document'], openForm: false,
+    onBeforeScript: 'on-before.cjs', onReadyScript: 'on-ready.cjs',
+    misMatchThreshold: 0.1, requireSameDimensions: true
+  });
   return {
     id: 'qualifi-campaigns',
     viewports: [{ label: 'mobile', width: 390, height: 844 }, { label: 'desktop', width: 1440, height: 1000 }],

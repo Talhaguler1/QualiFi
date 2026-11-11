@@ -60,7 +60,7 @@ sonucu üretmez; insan ve görsel test durumları açıkça beklemede kalır.
 BackstopJS ekran görüntülerini referanslarla karşılaştırır; tıklama/oturum
 analitiği veya insanların mesajı anlamasını ölçmez. Yapılandırma 14 sayfayı,
 sayfa ve form açık durumlarını, 390×844 mobil ve 1440×1000 masaüstü boyutlarını
-kapsar: 56 görüntü. Kaynak: https://github.com/garris/BackstopJS
+kapsar. Hakkımızda ve veri kullanımı sayfalarının iki dildeki 8 görüntüsüyle toplam 64 görüntü hazırlanır. Kaynak: https://github.com/garris/BackstopJS
 
 ```sh
 npm ci
